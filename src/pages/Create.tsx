@@ -12,6 +12,7 @@ import { AudioTrack } from "../components/AudioTrack";
 import { UploadImage } from "../components/UploadImage";
 import { useNavigate } from "react-router-dom";
 import { DETAIL_ROUTE } from "../navigation/Routes";
+import { Spinner } from "../components/common/Spinner";
 
 const initialMetadata: Metadata = {
   name: "",
@@ -54,6 +55,7 @@ export const CreatePage = (): JSX.Element => {
   const [licenses, setLicenses] = useState<any[]>(initialLicenses);
   const [amount, setAmount] = useState<number>(0);
   const [price, setPrice] = useState<number>(0);
+  const [loading, setLoading] = useState<boolean>(false);
 
   const nftStorage = new NFTStorage({
     token: Buffer.from(
@@ -81,12 +83,15 @@ export const CreatePage = (): JSX.Element => {
         amount,
         ethers.utils.parseEther(price.toString())
       );
+      setLoading(true);
       const events = (await tx.wait()).events;
       const id = Number(events[0].args.id);
+      setLoading(false);
       launchToast("NFT created successfully.");
       navigate(DETAIL_ROUTE.replace(":id", id.toString()));
     } catch (e) {
       console.log(e);
+      setLoading(false);
       launchToast("An error occurred creating the item.", ToastType.Error);
     }
   };
@@ -401,9 +406,13 @@ export const CreatePage = (): JSX.Element => {
       </div>
 
       <div className="mt-5 flex justify-center">
-        <Button color="yellow" onClick={create}>
-          Create NFT
-        </Button>
+        {loading ? (
+          <Spinner message="Creating NFT..." />
+        ) : (
+          <Button color="yellow" onClick={create}>
+            Create NFT
+          </Button>
+        )}
       </div>
     </div>
   );
