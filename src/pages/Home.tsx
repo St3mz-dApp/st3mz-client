@@ -18,7 +18,7 @@ export const HomePage = (): JSX.Element => {
           <ul className="list-disc pl-5">
             <li>Main audio track</li>
             <li>Stem files that form the main audio track</li>
-            <li>Cover workart</li>
+            <li>Cover artwork</li>
             <li>Metadata of the audio track</li>
           </ul>
           <div className="mt-2">

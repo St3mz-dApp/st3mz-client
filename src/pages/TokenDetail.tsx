@@ -95,7 +95,7 @@ export const TokenDetailPage = (): JSX.Element => {
     }
   };
 
-  // Mint token
+  // Buy token token
   const buy = async () => {
     if (!signer || !activeChain || !token || !amount) return;
 
@@ -106,7 +106,7 @@ export const TokenDetailPage = (): JSX.Element => {
       signer
     );
 
-    // Call mint() on contract
+    // Call buy() on contract
     try {
       const tx = await st3mzContract.buy(id, amount, {
         value: token.price.mul(amount).toString(),
