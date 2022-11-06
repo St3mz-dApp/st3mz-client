@@ -65,9 +65,7 @@ export const CreatePage = (): JSX.Element => {
   });
 
   const create = async () => {
-    if (!signer || !activeChain || !price || !amount) {
-      return;
-    }
+    if (!signer || !activeChain || !price || !amount) return;
 
     const cid = await storeIpfs();
 

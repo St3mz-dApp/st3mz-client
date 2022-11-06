@@ -33,6 +33,7 @@ export const TokenDetailPage = (): JSX.Element => {
   const [token, setToken] = useState<Token>();
   const [metadata, setMetadata] = useState<Metadata>();
   const [amount, setAmount] = useState<number>(0);
+  const [balance, setBalance] = useState<number>(0);
   const [loading, setLoading] = useState<boolean>(false);
 
   useEffect(() => {
@@ -43,10 +44,12 @@ export const TokenDetailPage = (): JSX.Element => {
     if (token) getMetadata();
   }, [token]);
 
+  useEffect(() => {
+    if (signer && activeChain) getBalance();
+  }, [signer, activeChain]);
+
   const getToken = async () => {
-    if (!provider) {
-      return;
-    }
+    if (!provider) return;
 
     const utilContract = new Contract(
       getNetwork(activeChain?.id || wagmiChains.polygon.id).utilAddress,
@@ -68,10 +71,25 @@ export const TokenDetailPage = (): JSX.Element => {
     setMetadata(data);
   };
 
-  const buy = async () => {
-    if (!signer || !activeChain || !token || !amount) {
-      return;
+  const getBalance = async () => {
+    if (!signer || !activeChain) return;
+
+    const st3mzContract = new Contract(
+      getNetwork(activeChain.id).st3mzAddress,
+      st3mzContractData.abi,
+      signer
+    );
+
+    try {
+      const resp = await st3mzContract.balanceOf(await signer.getAddress(), id);
+      setBalance(resp.toNumber());
+    } catch (e) {
+      console.log(e);
     }
+  };
+
+  const buy = async () => {
+    if (!signer || !activeChain || !token || !amount) return;
 
     const st3mzContract = new Contract(
       getNetwork(activeChain.id).st3mzAddress,
@@ -88,6 +106,7 @@ export const TokenDetailPage = (): JSX.Element => {
       setLoading(false);
       launchToast("Order completed with success.");
       getToken();
+      getBalance();
     } catch (e) {
       console.log(e);
       setLoading(false);
@@ -215,6 +234,17 @@ export const TokenDetailPage = (): JSX.Element => {
                 )}
               </div>
             </div>
+            {balance > 0 && (
+              <div className="mt-8">
+                <span className="text-2xl border-2 border-secondary p-2 rounded-xl">
+                  <span>My balance:</span>
+                  <span className="ml-1">
+                    <span className="text-secondary font-bold">{balance}</span>{" "}
+                    {balance == 1 ? <span>token</span> : <span>tokens</span>}
+                  </span>
+                </span>
+              </div>
+            )}
           </div>
         </>
       )}
