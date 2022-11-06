@@ -23,6 +23,7 @@ import axios from "axios";
 import { Metadata } from "../models/Metadata";
 import { AudioTrack } from "../components/AudioTrack";
 import { MdOpenInNew } from "react-icons/md";
+import { Spinner } from "../components/common/Spinner";
 
 export const TokenDetailPage = (): JSX.Element => {
   const { id } = useParams<{ id: string }>();
@@ -32,6 +33,7 @@ export const TokenDetailPage = (): JSX.Element => {
   const [token, setToken] = useState<Token>();
   const [metadata, setMetadata] = useState<Metadata>();
   const [amount, setAmount] = useState<number>(0);
+  const [loading, setLoading] = useState<boolean>(false);
 
   useEffect(() => {
     if (id) getToken();
@@ -81,10 +83,14 @@ export const TokenDetailPage = (): JSX.Element => {
       const tx = await st3mzContract.buy(id, amount, {
         value: token.price.mul(amount).toString(),
       });
-      const events = (await tx.wait()).events;
-      console.log(events);
+      setLoading(true);
+      await tx.wait();
+      setLoading(false);
+      launchToast("Order completed with success.");
+      getToken();
     } catch (e) {
       console.log(e);
+      setLoading(false);
       launchToast("An error occurred buying the item.", ToastType.Error);
     }
   };
@@ -159,8 +165,8 @@ export const TokenDetailPage = (): JSX.Element => {
                 <div className="mt-2 text-2xl border-b border-b-secondary">
                   Licenses
                 </div>
-                {metadata.licenses.map((license) => (
-                  <div>
+                {metadata.licenses.map((license, index) => (
+                  <div key={index}>
                     {license.type}{" "}
                     <span className="text-xl font-bold">
                       {license.tokensRequired}
@@ -179,22 +185,34 @@ export const TokenDetailPage = (): JSX.Element => {
                     {ethers.utils.formatEther(token.price)}
                   </span>
                 </div>
-                <div className="flex">
-                  <div className="mr-2">
-                    <Input
-                      variant="outlined"
-                      label="Number of units"
-                      size="lg"
-                      type="number"
-                      color="orange"
-                      className="!text-white bg-sec-bg error"
-                      onChange={(e) => setAmount(Number(e.target.value) || 0)}
-                    />
+                {token.available > 0 ? (
+                  <div className="flex">
+                    {loading ? (
+                      <Spinner message="Processing order..." />
+                    ) : (
+                      <>
+                        <div className="mr-2">
+                          <Input
+                            variant="outlined"
+                            label="Number of units"
+                            size="lg"
+                            type="number"
+                            color="orange"
+                            className="!text-white bg-sec-bg error"
+                            onChange={(e) =>
+                              setAmount(Number(e.target.value) || 0)
+                            }
+                          />
+                        </div>
+                        <Button color="yellow" onClick={buy}>
+                          Buy
+                        </Button>
+                      </>
+                    )}
                   </div>
-                  <Button color="yellow" onClick={buy}>
-                    Buy
-                  </Button>
-                </div>
+                ) : (
+                  <div className="text-xl font-bold">Sold out</div>
+                )}
               </div>
             </div>
           </div>

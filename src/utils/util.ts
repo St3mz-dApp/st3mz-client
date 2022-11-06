@@ -113,7 +113,5 @@ export const respToToken = (resp: any): Token => {
 };
 
 export const getIpfsUri = (baseUri: string): string => {
-  console.log(ipfsGatewayUrl);
-  const uri = baseUri.replace("ipfs://", ipfsGatewayUrl);
-  return uri;
+  return baseUri.replace("ipfs://", ipfsGatewayUrl);
 };

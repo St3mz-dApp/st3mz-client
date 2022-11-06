@@ -13,6 +13,19 @@ module.exports = withMT({
         "sec-bg": "#0a0832",
         "sec-text": "#a8a29e",
       },
+      animation: {
+        rotate: "rotation 4s infinite ease-in-out",
+      },
+      keyframes: {
+        rotation: {
+          "0%": { transform: "rotate(0deg)" },
+          "5%": { transform: "rotate(-20deg)" },
+          "45%": { transform: "rotate(200deg)" },
+          "55%": { transform: "rotate(160deg)" },
+          "95%": { transform: "rotate(380deg)" },
+          "100%": { transform: "rotate(359deg)" },
+        },
+      },
     },
     fontFamily: {
       sans: [
