@@ -1,6 +1,6 @@
 import { Contract } from "ethers";
 import { useEffect, useState } from "react";
-import { useProvider } from "wagmi";
+import { useNetwork, useProvider } from "wagmi";
 import { getNetwork } from "../Config";
 import { Token } from "../models/Token";
 import utilContractData from "../contracts/St3mzUtil.json";
@@ -11,6 +11,7 @@ import axios from "axios";
 export const TokenListPage = (): JSX.Element => {
   const provider = useProvider();
   const [tokens, setTokens] = useState<Token[]>([]);
+  const { chain: activeChain } = useNetwork();
 
   useEffect(() => {
     getTokens();
@@ -22,7 +23,7 @@ export const TokenListPage = (): JSX.Element => {
     }
 
     const utilContract = new Contract(
-      getNetwork(provider.network.chainId).utilAddress,
+      getNetwork(activeChain?.id || provider.network.chainId).utilAddress,
       utilContractData.abi,
       provider
     );

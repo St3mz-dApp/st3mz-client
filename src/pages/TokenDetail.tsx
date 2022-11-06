@@ -52,7 +52,7 @@ export const TokenDetailPage = (): JSX.Element => {
     if (!provider) return;
 
     const utilContract = new Contract(
-      getNetwork(provider.network.chainId).utilAddress,
+      getNetwork(activeChain?.id || provider.network.chainId).utilAddress,
       utilContractData.abi,
       provider
     );
