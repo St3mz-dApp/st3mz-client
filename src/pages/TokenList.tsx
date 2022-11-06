@@ -1,8 +1,7 @@
 import { Contract } from "ethers";
 import { useEffect, useState } from "react";
-import { useNetwork, useProvider } from "wagmi";
+import { useProvider } from "wagmi";
 import { getNetwork } from "../Config";
-import { chain as wagmiChains } from "wagmi";
 import { Token } from "../models/Token";
 import utilContractData from "../contracts/St3mzUtil.json";
 import { getIpfsUri, launchToast, respToToken, ToastType } from "../utils/util";
@@ -10,7 +9,6 @@ import { TokenCard } from "../components/TokenCard";
 import axios from "axios";
 
 export const TokenListPage = (): JSX.Element => {
-  const { chain: activeChain } = useNetwork();
   const provider = useProvider();
   const [tokens, setTokens] = useState<Token[]>([]);
 
@@ -24,7 +22,7 @@ export const TokenListPage = (): JSX.Element => {
     }
 
     const utilContract = new Contract(
-      getNetwork(activeChain?.id || wagmiChains.polygon.id).utilAddress,
+      getNetwork(provider.network.chainId).utilAddress,
       utilContractData.abi,
       provider
     );
@@ -49,7 +47,7 @@ export const TokenListPage = (): JSX.Element => {
     } catch (e) {
       console.log(e);
       launchToast(
-        "An error occurred fething list of available items.",
+        "An error occurred fetching list of available items.",
         ToastType.Error
       );
     }

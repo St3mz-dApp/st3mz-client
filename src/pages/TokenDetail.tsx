@@ -52,7 +52,7 @@ export const TokenDetailPage = (): JSX.Element => {
     if (!provider) return;
 
     const utilContract = new Contract(
-      getNetwork(activeChain?.id || wagmiChains.polygon.id).utilAddress,
+      getNetwork(provider.network.chainId).utilAddress,
       utilContractData.abi,
       provider
     );
