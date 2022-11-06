@@ -48,15 +48,18 @@ export const TokenDetailPage = (): JSX.Element => {
     if (signer && activeChain) getBalance();
   }, [signer, activeChain]);
 
+  // Get token data from contract
   const getToken = async () => {
     if (!provider) return;
 
+    // Instantiate St3mz contract
     const utilContract = new Contract(
       getNetwork(activeChain?.id || provider.network.chainId).utilAddress,
       utilContractData.abi,
       provider
     );
 
+    // Call getTokens() on contract
     try {
       const resp = await utilContract.getToken(id);
       setToken(respToToken(resp));
@@ -66,20 +69,24 @@ export const TokenDetailPage = (): JSX.Element => {
     }
   };
 
+  // Get token metadata from IPFS
   const getMetadata = async () => {
     const { data } = await axios.get(getIpfsUri(token!.uri));
     setMetadata(data);
   };
 
+  // Get signer's token balance
   const getBalance = async () => {
     if (!signer || !activeChain) return;
 
+    // Instantiate St3mz contract
     const st3mzContract = new Contract(
       getNetwork(activeChain.id).st3mzAddress,
       st3mzContractData.abi,
       signer
     );
 
+    // Call balanceOf() on contract
     try {
       const resp = await st3mzContract.balanceOf(await signer.getAddress(), id);
       setBalance(resp.toNumber());
@@ -88,15 +95,18 @@ export const TokenDetailPage = (): JSX.Element => {
     }
   };
 
+  // Mint token
   const buy = async () => {
     if (!signer || !activeChain || !token || !amount) return;
 
+    // Instantiate St3mz contract
     const st3mzContract = new Contract(
       getNetwork(activeChain.id).st3mzAddress,
       st3mzContractData.abi,
       signer
     );
 
+    // Call mint() on contract
     try {
       const tx = await st3mzContract.buy(id, amount, {
         value: token.price.mul(amount).toString(),

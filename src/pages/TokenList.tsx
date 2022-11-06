@@ -17,17 +17,20 @@ export const TokenListPage = (): JSX.Element => {
     getTokens();
   }, []);
 
+  // Get list of tokens from contract
   const getTokens = async () => {
     if (!provider) {
       return;
     }
 
+    // Instantiate Util contract
     const utilContract = new Contract(
       getNetwork(activeChain?.id || provider.network.chainId).utilAddress,
       utilContractData.abi,
       provider
     );
 
+    // Get tokens from contract
     try {
       const resp = await utilContract.getTokens(12, 1, true);
 

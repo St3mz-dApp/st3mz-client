@@ -57,6 +57,7 @@ export const CreatePage = (): JSX.Element => {
   const [price, setPrice] = useState<number>(0);
   const [loading, setLoading] = useState<boolean>(false);
 
+  // Create instance of NFTStorage client
   const nftStorage = new NFTStorage({
     token: Buffer.from(
       "ZXlKaGJHY2lPaUpJVXpJMU5pSXNJblI1Y0NJNklrcFhWQ0o5LmV5SnpkV0lpT2lKa2FXUTZaWFJvY2pvd2VEazNOek5FT1RJMllXSXpOREkzTlRZeE9EWmxaRFZDTWtVNFJqa3dNVE5GTW1FeU1tUmpOMlVpTENKcGMzTWlPaUp1Wm5RdGMzUnZjbUZuWlNJc0ltbGhkQ0k2TVRZMk5qUTJORFF4TmpBeE1Td2libUZ0WlNJNkluTjBNMjE2SW4wLlEyVm1Sek5fT3RJWmRRTEltcTRKTW1oWXlpNmk5ZHhYMHZNSHZoTGk3YzQ=",
@@ -64,17 +65,21 @@ export const CreatePage = (): JSX.Element => {
     ).toString(),
   });
 
+  // Create new NFT
   const create = async () => {
     if (!signer || !activeChain || !price || !amount) return;
 
+    // Store files on IPFS
     const cid = await storeIpfs();
 
+    // Instantiate St3mz contract
     const st3mzContract = new Contract(
       getNetwork(activeChain.id).st3mzAddress,
       st3mzContractData.abi,
       signer
     );
 
+    // Send transaction
     try {
       const tx = await st3mzContract.mint(
         `ipfs://${cid}`,
@@ -94,14 +99,15 @@ export const CreatePage = (): JSX.Element => {
     }
   };
 
+  // Store files on IPFS
   const storeIpfs = async () => {
     if (!track || !stems.length || !image) return;
-
     if (licenses[0].selected && !licenses[0].tokensRequired) {
       launchToast("Please enter a name.", ToastType.Error);
       return;
     }
 
+    // Map licenses data
     const licensesMeta: License[] = licenses
       .filter((license) => license.selected)
       .map((license) => {
@@ -116,7 +122,6 @@ export const CreatePage = (): JSX.Element => {
       launchToast("Please select at least one license.", ToastType.Error);
       return;
     }
-
     if (
       licensesMeta.findIndex(
         (license) => !license.tokensRequired || license.tokensRequired > amount
@@ -129,16 +134,20 @@ export const CreatePage = (): JSX.Element => {
       return;
     }
 
+    // Store audio files and image on IPFS directory
     launchToast("Uploading files to IPFS...", ToastType.Info);
     const filesCid = await nftStorage.storeDirectory([track, ...stems, image]);
 
+    // Store metadata on IPFS
     launchToast("Uploading metadata to IPFS...", ToastType.Info);
     const metadataCid = await nftStorage.storeBlob(
       generateMetadata(filesCid, licensesMeta)
     );
+
     return metadataCid;
   };
 
+  // Generate metadata JSON file
   const generateMetadata = (
     filesCid: string,
     licensesMeta: License[]
