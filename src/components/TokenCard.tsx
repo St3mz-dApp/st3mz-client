@@ -33,7 +33,7 @@ export const TokenCard = ({ token }: { token: Token }): JSX.Element => {
         <div>
           <span>Price</span>
           <span className="font-bold">
-            <img src="/images/matic.svg" className="mx-1 h-5 inline" />
+            <img src="/images/FTM.svg" className="mx-1 h-5 inline" />
             {ethers.utils.formatEther(token.price)}
           </span>
         </div>

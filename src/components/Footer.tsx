@@ -7,7 +7,7 @@ export const Footer = (): JSX.Element => {
     <div className="flex flex-row justify-around items-center p-6 font-light">
       <div>
         <img src="/images/logo_192.png" className="h-10 inline pr-3"></img>
-        <span>© {APP_NAME} 2022</span>
+        <span>© {APP_NAME} 2023</span>
       </div>
       <div>
         <div>

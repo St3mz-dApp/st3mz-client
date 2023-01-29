@@ -25,8 +25,7 @@ export const HomePage = (): JSX.Element => {
             All the files are stored on{" "}
             <span className="font-bold text-secondary">IPFS</span> and the NFT
             is minted on{" "}
-            <span className="font-bold text-secondary">Polygon blockchain</span>
-            .
+            <span className="font-bold text-secondary">Fantom blockchain</span>.
           </div>
         </div>
         <div className="rounded-2xl shadow-lg bg-sec-bg p-6 pt-4 w-3/5 mb-6 ml-auto">

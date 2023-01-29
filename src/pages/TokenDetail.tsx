@@ -2,12 +2,7 @@ import { Button, Input } from "@material-tailwind/react";
 import { Contract, ethers } from "ethers";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import {
-  useNetwork,
-  useSigner,
-  useProvider,
-  chain as wagmiChains,
-} from "wagmi";
+import { useNetwork, useSigner, useProvider } from "wagmi";
 import { getNetwork } from "../Config";
 import st3mzContractData from "../contracts/St3mz.json";
 import utilContractData from "../contracts/St3mzUtil.json";
@@ -210,7 +205,7 @@ export const TokenDetailPage = (): JSX.Element => {
                 <div className="mb-4 border-2 border-primary p-2 rounded-xl">
                   <span>Unit price</span>
                   <span className="text-xl font-bold">
-                    <img src="/images/matic.svg" className="mx-1 h-5 inline" />
+                    <img src="/images/FTM.svg" className="mx-1 h-5 inline" />
                     {ethers.utils.formatEther(token.price)}
                   </span>
                 </div>
