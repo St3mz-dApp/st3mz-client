@@ -27,14 +27,14 @@ const networks: Network[] = [
   {
     chainId: fantomTestnet.id,
     name: "Testnet",
-    st3mzAddress: "",
-    utilAddress: "",
+    st3mzAddress: "0xde619f24562251520058773d3625b00716ce804b",
+    utilAddress: "0xecf1ff305d570585885f6078cff66a678777b10b",
   },
   {
     chainId: fantom.id,
     name: "Mainnet",
-    st3mzAddress: "0xd89e04f2ddf5f8212461d27584216f00ab6e96f4",
-    utilAddress: "0x2da83a100e25ad3a2ea58967d37f8439a33de4fb",
+    st3mzAddress: "0x0",
+    utilAddress: "0x0",
   },
 ];
 

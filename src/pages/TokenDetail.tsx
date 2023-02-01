@@ -54,7 +54,7 @@ export const TokenDetailPage = (): JSX.Element => {
       provider
     );
 
-    // Call getTokens() on contract
+    // Call getToken() on contract
     try {
       const resp = await utilContract.getToken(id);
       setToken(respToToken(resp));
@@ -120,11 +120,15 @@ export const TokenDetailPage = (): JSX.Element => {
   };
 
   return (
-    <div className="flex">
+    <div className="lg:flex">
       {token && metadata && (
         <>
           {/* Left column */}
-          <div className="w-2/5">
+          <div className="lg:w-2/5">
+            <div className="mb-5">
+              <span className="text-4xl font-bold">{metadata.name}</span>
+              <AudioTrack url={getIpfsUri(metadata.file)} />
+            </div>
             {metadata.image && (
               <img className="rounded-xl" src={getIpfsUri(metadata.image)} />
             )}
@@ -169,11 +173,7 @@ export const TokenDetailPage = (): JSX.Element => {
           </div>
 
           {/* Right column */}
-          <div className="w-3/5 pl-16">
-            <div className="mb-4">
-              <span className="text-4xl font-bold">{metadata.name}</span>
-            </div>
-            <AudioTrack url={getIpfsUri(metadata.file)} />
+          <div className="lg:w-3/5 lg:pl-16">
             <div className="mt-4 mb-2 border-b border-b-secondary text-2xl">
               Stems
             </div>

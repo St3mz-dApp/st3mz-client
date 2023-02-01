@@ -244,14 +244,16 @@ export const CreatePage = (): JSX.Element => {
         </div>
 
         {/* Right column */}
-        <div className="flex flex-col items-center px-12 lg:block lg:w-1/2">
+        <div className="block lg:w-1/2 lg:px-12">
           {/* Cover image */}
-          <div className="mx-auto mb-10">
-            <div className="mb-2 text-xl font-bold">Upload cover</div>
-            <UploadImage
-              onUpload={(file: File) => setImage(file)}
-              className="h-56 w-56"
-            />
+          <div className="mb-10 flex justify-center">
+            <div className="">
+              <div className="mb-2 text-xl font-bold">Upload cover</div>
+              <UploadImage
+                onUpload={(file: File) => setImage(file)}
+                className="h-56 w-56"
+              />
+            </div>
           </div>
           {/* Name */}
           <div className="mb-5">
@@ -335,7 +337,7 @@ export const CreatePage = (): JSX.Element => {
           {/* Licenses */}
           <div className="mt-8 mb-2 text-xl font-bold">Licensing</div>
           {/* Basic */}
-          <div className="mb-2 flex">
+          <div className="mb-2 sm:flex">
             <div className="-ml-3 mr-4 flex items-center">
               <Checkbox
                 color="orange"
@@ -347,7 +349,7 @@ export const CreatePage = (): JSX.Element => {
               />
               <span>Basic</span>
             </div>
-            <div className="w-48">
+            <div className="ml-8 w-48 sm:m-0">
               <Input
                 variant="outlined"
                 label="Amount required"
@@ -364,7 +366,7 @@ export const CreatePage = (): JSX.Element => {
             </div>
           </div>
           {/* Commercial */}
-          <div className="mb-2 flex">
+          <div className="mb-2 sm:flex">
             <div className="-ml-3 mr-4 flex items-center">
               <Checkbox
                 color="orange"
@@ -376,7 +378,7 @@ export const CreatePage = (): JSX.Element => {
               />
               <span>Commercial</span>
             </div>
-            <div className="w-48">
+            <div className="ml-8 w-48 sm:m-0">
               <Input
                 variant="outlined"
                 label="Amount required"
