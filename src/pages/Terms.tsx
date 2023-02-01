@@ -5,8 +5,8 @@ import { PRIVACY_ROUTE } from "../navigation/Routes";
 export const TermsPage = (): JSX.Element => {
   return (
     <div>
-      <h1 className="text-5xl font-bold pb-2">Terms and Conditions of Use</h1>
-      <h2 className="text-3xl font-bold pt-4">1. Terms</h2>
+      <h1 className="pb-2 text-5xl font-bold">Terms and Conditions of Use</h1>
+      <h2 className="pt-4 text-3xl font-bold">1. Terms</h2>
       <p className="pt-1">
         By accessing this Website, accessible from https://st3mz-dapp.web.app,
         you are agreeing to be bound by these Website Terms and Conditions of
@@ -15,7 +15,7 @@ export const TermsPage = (): JSX.Element => {
         prohibited from accessing this site. The materials contained in this
         Website are protected by copyright and trade mark law.
       </p>
-      <h2 className="text-3xl font-bold pt-4">2. Use License</h2>
+      <h2 className="pt-4 text-3xl font-bold">2. Use License</h2>
       <p className="pt-1">
         Permission is granted to temporarily download one copy of the materials
         on {APP_NAME}'s Website for personal, non-commercial transitory viewing
@@ -47,7 +47,7 @@ export const TermsPage = (): JSX.Element => {
         terminated and you should destroy any downloaded materials in your
         possession whether it is printed or electronic format.
       </p>
-      <h2 className="text-3xl font-bold pt-4">
+      <h2 className="pt-4 text-3xl font-bold">
         3. Disclaimer of warranties and Limitation of liability
       </h2>
       <p className="pt-1">
@@ -63,7 +63,7 @@ export const TermsPage = (): JSX.Element => {
         any way out of the use of this website, even if advised of the
         possibility of such damage.
       </p>
-      <h2 className="text-3xl font-bold pt-4">4. Limitations </h2>
+      <h2 className="pt-4 text-3xl font-bold">4. Limitations </h2>
       <p className="pt-1">
         {APP_NAME} or its suppliers will not be hold accountable for any damages
         that will arise with the use or inability to use the materials on
@@ -73,7 +73,7 @@ export const TermsPage = (): JSX.Element => {
         warranties or limitations of liability for incidental damages, these
         limitations may not apply to you.
       </p>
-      <h2 className="text-3xl font-bold pt-4">5. Revisions and Errata </h2>
+      <h2 className="pt-4 text-3xl font-bold">5. Revisions and Errata </h2>
       <p className="pt-1">
         The materials appearing on {APP_NAME}'s Website may include technical,
         typographical, {APP_NAME} or photographic errors. {APP_NAME} will not
@@ -82,14 +82,14 @@ export const TermsPage = (): JSX.Element => {
         its Website at any time without notice. {APP_NAME} does not make any
         commitment to update the materials.
       </p>
-      <h2 className="text-3xl font-bold pt-4">6. Links</h2>
+      <h2 className="pt-4 text-3xl font-bold">6. Links</h2>
       <p className="pt-1">
         {APP_NAME} has not reviewed all of the sites linked to its Website and
         is not responsible for the contents of any such linked site. The
         presence of any link does not imply endorsement by {APP_NAME} of the
         site. The use of any linked website is at the user's own risk.
       </p>
-      <h2 className="text-3xl font-bold pt-4">
+      <h2 className="pt-4 text-3xl font-bold">
         7. Site Terms of Use Modifications
       </h2>
       <p className="pt-1">
@@ -97,11 +97,11 @@ export const TermsPage = (): JSX.Element => {
         without prior notice. By using this Website, you are agreeing to be
         bound by the current version of these Terms and Conditions of Use.
       </p>
-      <h2 className="text-3xl font-bold pt-4">8. Your Privacy</h2>
+      <h2 className="pt-4 text-3xl font-bold">8. Your Privacy</h2>
       <p className="pt-1">
         Please read our <Link to={PRIVACY_ROUTE}>Privacy Policy</Link>.
       </p>
-      <h2 className="text-3xl font-bold pt-4">9. Copyright Complaints </h2>
+      <h2 className="pt-4 text-3xl font-bold">9. Copyright Complaints </h2>
       <p className="pt-1">
         {APP_NAME} respects the intellectual property of others. If you believe
         that your work has been copied in a way that constitutes copyright

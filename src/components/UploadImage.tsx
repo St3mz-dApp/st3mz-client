@@ -26,8 +26,8 @@ export const UploadImage = ({ onUpload, className }: Props): JSX.Element => {
 
   return (
     <div
-      className={`overflow-hidden flex flex-col justify-center items-center text-sec-text border-2 border-dashed
-          rounded-lg bg-black bg-opacity-20 ${className} ${
+      className={`flex flex-col items-center justify-center overflow-hidden rounded-lg border-2 border-dashed
+          bg-black bg-opacity-20 text-sec-text ${className} ${
         dropZoneActive ? "border-gray-300" : "border-sec-text"
       }`}
       onDragOver={(e) => {

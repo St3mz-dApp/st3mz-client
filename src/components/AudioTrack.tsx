@@ -90,38 +90,38 @@ export const AudioTrack = ({
       <div className="mr-2">
         {!isPlaying && (
           <MdPlayCircle
-            className="h-8 w-8 text-primary cursor-pointer"
+            className="h-8 w-8 cursor-pointer text-primary"
             onClick={play}
           />
         )}
         {isPlaying && (
           <MdPauseCircle
-            className="h-8 w-8 text-primary cursor-pointer"
+            className="h-8 w-8 cursor-pointer text-primary"
             onClick={pause}
           />
         )}
         {!small && (
           <MdStopCircle
-            className="h-8 w-8 text-primary cursor-pointer"
+            className="h-8 w-8 cursor-pointer text-primary"
             onClick={stop}
           />
         )}
       </div>
       <div
         ref={waveformRef}
-        className="rounded-lg overflow-hidden w-full"
+        className="w-full overflow-hidden rounded-lg"
       ></div>
       {!small && (
         <div className="ml-2">
           {!isMuted && (
             <MdVolumeUp
-              className="h-7 w-7 text-primary cursor-pointer"
+              className="h-7 w-7 cursor-pointer text-primary"
               onClick={mute}
             />
           )}
           {isMuted && (
             <MdVolumeOff
-              className="h-7 w-7 text-primary cursor-pointer"
+              className="h-7 w-7 cursor-pointer text-primary"
               onClick={unmute}
             />
           )}

@@ -8,16 +8,16 @@ import { AudioTrack } from "./AudioTrack";
 export const TokenCard = ({ token }: { token: Token }): JSX.Element => {
   return (
     <div
-      className="group my-1 px-1 w-full md:w-1/2 lg:my-4 lg:px-4 lg:w-1/3 transition-transform 
-    ease-in-out hover:-translate-y-1 duration-300"
+      className="group my-1 w-full px-1 transition-transform duration-300 ease-in-out hover:-translate-y-1 md:w-1/2 
+    lg:my-4 lg:w-1/3 lg:px-4"
     >
-      <div className="rounded-2xl shadow-lg bg-sec-bg px-6 py-4 overflow-hidden">
+      <div className="overflow-hidden rounded-2xl bg-sec-bg px-6 py-4 shadow-lg">
         {token.metadata && (
           <>
             {token.metadata.image && (
               <Link to={DETAIL_ROUTE.replace(":id", token.id.toString())}>
                 <img
-                  className="w-full h-64 object-cover object-center mb-6 rounded-xl"
+                  className="mb-6 h-64 w-full rounded-xl object-cover object-center"
                   src={getIpfsUri(token.metadata.image)}
                 />
               </Link>
@@ -33,7 +33,7 @@ export const TokenCard = ({ token }: { token: Token }): JSX.Element => {
         <div>
           <span>Price</span>
           <span className="font-bold">
-            <img src="/images/FTM.svg" className="mx-1 h-5 inline" />
+            <img src="/images/FTM.svg" className="mx-1 inline h-5" />
             {ethers.utils.formatEther(token.price)}
           </span>
         </div>

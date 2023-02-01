@@ -163,7 +163,7 @@ export const TokenDetailPage = (): JSX.Element => {
             <div>
               <span>IPFS link</span>{" "}
               <a href={getIpfsUri(token.uri)} target="_blank">
-                <MdOpenInNew className="h-6 w-6 inline -mt-1 cursor-pointer text-secondary" />
+                <MdOpenInNew className="-mt-1 inline h-6 w-6 cursor-pointer text-secondary" />
               </a>
             </div>
           </div>
@@ -174,7 +174,7 @@ export const TokenDetailPage = (): JSX.Element => {
               <span className="text-4xl font-bold">{metadata.name}</span>
             </div>
             <AudioTrack url={getIpfsUri(metadata.file)} />
-            <div className="mt-4 mb-2 text-2xl border-b border-b-secondary">
+            <div className="mt-4 mb-2 border-b border-b-secondary text-2xl">
               Stems
             </div>
             {metadata.stems.map((stem, index) => (
@@ -184,9 +184,9 @@ export const TokenDetailPage = (): JSX.Element => {
               </div>
             ))}
 
-            <div className="flex mt-4">
+            <div className="mt-4 flex">
               <div className="w-1/2">
-                <div className="mt-2 text-2xl border-b border-b-secondary">
+                <div className="mt-2 border-b border-b-secondary text-2xl">
                   Licenses
                 </div>
                 {metadata.licenses.map((license, index) => (
@@ -201,11 +201,11 @@ export const TokenDetailPage = (): JSX.Element => {
                   </div>
                 ))}
               </div>
-              <div className="w-1/2 flex flex-col items-center justify-center">
-                <div className="mb-4 border-2 border-primary p-2 rounded-xl">
+              <div className="flex w-1/2 flex-col items-center justify-center">
+                <div className="mb-4 rounded-xl border-2 border-primary p-2">
                   <span>Unit price</span>
                   <span className="text-xl font-bold">
-                    <img src="/images/FTM.svg" className="mx-1 h-5 inline" />
+                    <img src="/images/FTM.svg" className="mx-1 inline h-5" />
                     {ethers.utils.formatEther(token.price)}
                   </span>
                 </div>
@@ -222,7 +222,7 @@ export const TokenDetailPage = (): JSX.Element => {
                             size="lg"
                             type="number"
                             color="orange"
-                            className="!text-white bg-sec-bg error"
+                            className="error bg-sec-bg !text-white"
                             onChange={(e) =>
                               setAmount(Number(e.target.value) || 0)
                             }
@@ -241,10 +241,10 @@ export const TokenDetailPage = (): JSX.Element => {
             </div>
             {balance > 0 && (
               <div className="mt-8">
-                <span className="text-2xl border-2 border-secondary p-2 rounded-xl">
+                <span className="rounded-xl border-2 border-secondary p-2 text-2xl">
                   <span>My balance:</span>
                   <span className="ml-1">
-                    <span className="text-secondary font-bold">{balance}</span>{" "}
+                    <span className="font-bold text-secondary">{balance}</span>{" "}
                     {balance == 1 ? <span>token</span> : <span>tokens</span>}
                   </span>
                 </span>

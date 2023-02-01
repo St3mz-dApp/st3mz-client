@@ -175,13 +175,13 @@ export const CreatePage = (): JSX.Element => {
 
   return (
     <div>
-      <h1 className="text-6xl font-bold pb-2 text-center">Create NFT</h1>
-      <div className="flex mt-12">
+      <h1 className="pb-2 text-center text-6xl font-bold">Create NFT</h1>
+      <div className="mt-12 lg:flex">
         {/* Left column */}
-        <div className="w-1/2 flex flex-col items-center">
+        <div className="flex flex-col items-center lg:w-1/2">
           {/* Track */}
           <div className="mb-6">
-            <div className="font-bold text-xl mb-2">Upload track</div>
+            <div className="mb-2 text-xl font-bold">Upload track</div>
             <UploadAudio
               onUpload={(files) => setTrack(files[0])}
               className="w-56"
@@ -200,7 +200,7 @@ export const CreatePage = (): JSX.Element => {
           )}
           {/* Stems */}
           <div className="pb-6">
-            <div className="font-bold text-xl mb-2">Upload stems</div>
+            <div className="mb-2 text-xl font-bold">Upload stems</div>
             <UploadAudio
               onUpload={(files) => {
                 setStems([...stems, ...files]);
@@ -228,7 +228,7 @@ export const CreatePage = (): JSX.Element => {
                     size="lg"
                     type="text"
                     color="orange"
-                    className="!text-white bg-sec-bg error"
+                    className="error bg-sec-bg !text-white"
                     onChange={(e) => {
                       const stemsMeta = JSON.parse(
                         JSON.stringify(metadata.stems)
@@ -244,10 +244,10 @@ export const CreatePage = (): JSX.Element => {
         </div>
 
         {/* Right column */}
-        <div className="w-1/2 px-12">
+        <div className="flex flex-col items-center px-12 lg:block lg:w-1/2">
           {/* Cover image */}
-          <div className="mb-10">
-            <div className="font-bold text-xl mb-2">Upload cover</div>
+          <div className="mx-auto mb-10">
+            <div className="mb-2 text-xl font-bold">Upload cover</div>
             <UploadImage
               onUpload={(file: File) => setImage(file)}
               className="h-56 w-56"
@@ -261,7 +261,7 @@ export const CreatePage = (): JSX.Element => {
               size="lg"
               type="text"
               color="orange"
-              className="!text-white bg-sec-bg error"
+              className="error bg-sec-bg !text-white"
               onChange={(e) =>
                 setMetadata({ ...metadata, name: e.target.value })
               }
@@ -274,7 +274,7 @@ export const CreatePage = (): JSX.Element => {
               label="Description"
               size="lg"
               color="orange"
-              className="!text-white bg-sec-bg error"
+              className="error bg-sec-bg !text-white"
               onChange={(e) =>
                 setMetadata({ ...metadata, description: e.target.value })
               }
@@ -288,7 +288,7 @@ export const CreatePage = (): JSX.Element => {
               size="lg"
               type="text"
               color="orange"
-              className="!text-white bg-sec-bg error"
+              className="error bg-sec-bg !text-white"
               onChange={(e) =>
                 setMetadata({ ...metadata, genre: e.target.value })
               }
@@ -302,7 +302,7 @@ export const CreatePage = (): JSX.Element => {
               size="lg"
               type="number"
               color="orange"
-              className="!text-white bg-sec-bg error"
+              className="error bg-sec-bg !text-white"
               onChange={(e) =>
                 setMetadata({ ...metadata, bpm: Number(e.target.value) })
               }
@@ -316,7 +316,7 @@ export const CreatePage = (): JSX.Element => {
               size="lg"
               type="number"
               color="orange"
-              className="!text-white bg-sec-bg error"
+              className="error bg-sec-bg !text-white"
               onChange={(e) => setAmount(Number(e.target.value) || 0)}
             />
           </div>
@@ -328,15 +328,15 @@ export const CreatePage = (): JSX.Element => {
               size="lg"
               type="number"
               color="orange"
-              className="!text-white bg-sec-bg error"
+              className="error bg-sec-bg !text-white"
               onChange={(e) => setPrice(Number(e.target.value))}
             />
           </div>
           {/* Licenses */}
-          <div className="font-bold text-xl mt-8 mb-2">Licensing</div>
+          <div className="mt-8 mb-2 text-xl font-bold">Licensing</div>
           {/* Basic */}
-          <div className="flex mb-2">
-            <div className="flex items-center -ml-3 mr-4">
+          <div className="mb-2 flex">
+            <div className="-ml-3 mr-4 flex items-center">
               <Checkbox
                 color="orange"
                 onChange={(e) => {
@@ -354,7 +354,7 @@ export const CreatePage = (): JSX.Element => {
                 size="lg"
                 type="number"
                 color="orange"
-                className="!text-white bg-sec-bg error"
+                className="error bg-sec-bg !text-white"
                 onChange={(e) => {
                   const _licenses = [...licenses];
                   _licenses[0].tokensRequired = e.target.value;
@@ -364,8 +364,8 @@ export const CreatePage = (): JSX.Element => {
             </div>
           </div>
           {/* Commercial */}
-          <div className="flex mb-2">
-            <div className="flex items-center -ml-3 mr-4">
+          <div className="mb-2 flex">
+            <div className="-ml-3 mr-4 flex items-center">
               <Checkbox
                 color="orange"
                 onChange={(e) => {
@@ -383,7 +383,7 @@ export const CreatePage = (): JSX.Element => {
                 size="lg"
                 type="number"
                 color="orange"
-                className="!text-white bg-sec-bg error"
+                className="error bg-sec-bg !text-white"
                 onChange={(e) => {
                   const _licenses = [...licenses];
                   _licenses[1].tokensRequired = e.target.value;
@@ -394,7 +394,7 @@ export const CreatePage = (): JSX.Element => {
           </div>
           {/* Exclusive */}
           <div className="mb-4">
-            <div className="flex items-center -ml-3">
+            <div className="-ml-3 flex items-center">
               <Checkbox
                 color="orange"
                 onChange={(e) => {
@@ -404,7 +404,7 @@ export const CreatePage = (): JSX.Element => {
                 }}
               />
               <span>Exclusive</span>
-              <span className="ml-5 text-sec-text font-bold text-lg">
+              <span className="ml-5 text-lg font-bold text-sec-text">
                 All supply
               </span>
             </div>

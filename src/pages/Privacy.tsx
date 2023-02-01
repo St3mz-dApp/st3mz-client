@@ -3,7 +3,7 @@ import { APP_NAME } from "../Config";
 export const PrivacyPage = (): JSX.Element => {
   return (
     <div>
-      <h1 className="text-5xl font-bold pb-2">Privacy Policy</h1>
+      <h1 className="pb-2 text-5xl font-bold">Privacy Policy</h1>
       <p className="pt-1">
         At {APP_NAME}, accessible from https://st3mz-dapp.web.app, one of our
         main priorities is the privacy of our visitors. This Privacy Policy
@@ -22,12 +22,12 @@ export const PrivacyPage = (): JSX.Element => {
         any information collected offline or via channels other than this
         website.
       </p>
-      <h2 className="text-3xl font-bold pt-4">Consent</h2>
+      <h2 className="pt-4 text-3xl font-bold">Consent</h2>
       <p className="pt-1">
         By using our website, you hereby consent to our Privacy Policy and agree
         to its terms.
       </p>
-      <h2 className="text-3xl font-bold pt-4">Information we collect</h2>
+      <h2 className="pt-4 text-3xl font-bold">Information we collect</h2>
       <p className="pt-1">
         The personal information that you are asked to provide, and the reasons
         why you are asked to provide it, will be made clear to you at the point
@@ -39,7 +39,7 @@ export const PrivacyPage = (): JSX.Element => {
         message and/or attachments you may send us, and any other information
         you may choose to provide.
       </p>
-      <h2 className="text-3xl font-bold pt-4">How we use your information</h2>
+      <h2 className="pt-4 text-3xl font-bold">How we use your information</h2>
       <p className="pt-1">
         We use the information we collect in various ways, including to:
       </p>
@@ -57,7 +57,7 @@ export const PrivacyPage = (): JSX.Element => {
         <li>Send you emails</li>
         <li>Find and prevent fraud</li>
       </ul>
-      <h2 className="text-3xl font-bold pt-4">Log Files</h2>
+      <h2 className="pt-4 text-3xl font-bold">Log Files</h2>
       <p className="pt-1">
         {APP_NAME} follows a standard procedure of using log files. These files
         log visitors when they visit websites. All hosting companies do this and
@@ -69,7 +69,7 @@ export const PrivacyPage = (): JSX.Element => {
         analyzing trends, administering the site, tracking users' movement on
         the website, and gathering demographic information.
       </p>
-      <h2 className="text-3xl font-bold pt-4">
+      <h2 className="pt-4 text-3xl font-bold">
         Advertising Partners Privacy Policies
       </h2>
       <p className="pt-1">
@@ -89,7 +89,7 @@ export const PrivacyPage = (): JSX.Element => {
         Note that {APP_NAME} has no access to or control over these cookies that
         are used by third-party advertisers.
       </p>
-      <h2 className="text-3xl font-bold pt-4">Third Party Privacy Policies</h2>
+      <h2 className="pt-4 text-3xl font-bold">Third Party Privacy Policies</h2>
       <p className="pt-1">
         {APP_NAME}'s Privacy Policy does not apply to other advertisers or
         websites. Thus, we are advising you to consult the respective Privacy
@@ -103,7 +103,7 @@ export const PrivacyPage = (): JSX.Element => {
         specific web browsers, it can be found at the browsers' respective
         websites.
       </p>
-      <h2 className="text-3xl font-bold pt-4">
+      <h2 className="pt-4 text-3xl font-bold">
         CCPA Privacy Rights (Do Not Sell My Personal Information)
       </h2>
       <p className="pt-1">
@@ -127,7 +127,7 @@ export const PrivacyPage = (): JSX.Element => {
         If you make a request, we have one month to respond to you. If you would
         like to exercise any of these rights, please contact us.
       </p>
-      <h2 className="text-3xl font-bold pt-4">GDPR Data Protection Rights</h2>
+      <h2 className="pt-4 text-3xl font-bold">GDPR Data Protection Rights</h2>
       <p className="pt-1">
         We would like to make sure you are fully aware of all of your data
         protection rights. Every user is entitled to the following:
@@ -166,7 +166,7 @@ export const PrivacyPage = (): JSX.Element => {
         If you make a request, we have one month to respond to you. If you would
         like to exercise any of these rights, please contact us.
       </p>
-      <h2 className="text-3xl font-bold pt-4">Children's Information</h2>
+      <h2 className="pt-4 text-3xl font-bold">Children's Information</h2>
       <p className="pt-1">
         Another part of our priority is adding protection for children while
         using the internet. We encourage parents and guardians to observe,

@@ -4,10 +4,10 @@ export const HomePage = (): JSX.Element => {
       <img
         src="/images/logo_full.png"
         alt="logo"
-        className="w-1/2 mx-auto mb-12"
+        className="lg:w-1/2 mx-auto mb-12"
       />
-      <div className="mx-8 text-lg">
-        <div className="rounded-2xl shadow-lg bg-sec-bg p-6 pt-4 w-3/5 mb-6">
+      <div className="md:mx-8 text-lg">
+        <div className="rounded-2xl shadow-lg bg-sec-bg p-6 pt-4 lg:w-3/5 mb-6">
           <div className="text-3xl font-bold border-b border-primary mb-2">
             Music NFTs
           </div>
@@ -28,7 +28,7 @@ export const HomePage = (): JSX.Element => {
             <span className="font-bold text-secondary">Fantom blockchain</span>.
           </div>
         </div>
-        <div className="rounded-2xl shadow-lg bg-sec-bg p-6 pt-4 w-3/5 mb-6 ml-auto">
+        <div className="rounded-2xl shadow-lg bg-sec-bg p-6 pt-4 lg:w-3/5 mb-6 ml-auto">
           <div className="text-3xl font-bold border-b border-primary mb-2">
             Different licenses
           </div>

@@ -11,16 +11,16 @@ export const BetaBanner = (): JSX.Element => {
   return (
     <div
       className={classNames(
-        "flex justify-center items-center bg-secondary p-2",
+        "flex items-center justify-center bg-secondary p-2",
         hidden && "hidden"
       )}
     >
-      <MdErrorOutline className="h-5 w-5 mr-1" />
+      <MdErrorOutline className="mr-1 h-5 w-5" />
       <span>{APP_NAME} is currently in beta version.</span>
       <Button
         color="white"
         size="sm"
-        className="ml-2 px-1 py-px text-secondary font-semibold"
+        className="ml-2 px-1 py-px font-semibold text-secondary"
         onClick={() => {
           setBannerDismissed();
           setHidden(true);

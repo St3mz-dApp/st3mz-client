@@ -23,8 +23,8 @@ const wagmiClient = createClient(
 function App() {
   return (
     <div
-      className="m-0 p-0 w-full text-white font-sans font-medium flex flex-col 
-        justify-between min-h-screen"
+      className="m-0 flex min-h-screen w-full flex-col justify-between p-0 font-sans 
+        font-medium text-white"
     >
       <div>
         <WagmiConfig client={wagmiClient}>
@@ -38,7 +38,7 @@ function App() {
             {!getBannerDismissed() && <BetaBanner />}
             <NetworkBanner />
             <Navbar />
-            <div className="px-28 py-12 text-justify">
+            <div className="p-8 text-justify md:px-28 md:py-12">
               <Routes>
                 {pages.map((page) => (
                   <Route
