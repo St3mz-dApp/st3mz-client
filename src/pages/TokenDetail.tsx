@@ -126,7 +126,7 @@ export const TokenDetailPage = (): JSX.Element => {
           {/* Left column */}
           <div className="lg:w-2/5">
             <div className="mb-5">
-              <span className="text-4xl font-bold">{metadata.name}</span>
+              <div className="mb-2 text-4xl font-bold">{metadata.name}</div>
               <AudioTrack url={getIpfsUri(metadata.file)} />
             </div>
             {metadata.image && (
@@ -184,8 +184,8 @@ export const TokenDetailPage = (): JSX.Element => {
               </div>
             ))}
 
-            <div className="mt-4 flex">
-              <div className="w-1/2">
+            <div className="mt-4 md:flex">
+              <div className="md:w-1/2">
                 <div className="mt-2 border-b border-b-secondary text-2xl">
                   Licenses
                 </div>
@@ -201,7 +201,7 @@ export const TokenDetailPage = (): JSX.Element => {
                   </div>
                 ))}
               </div>
-              <div className="flex w-1/2 flex-col items-center justify-center">
+              <div className="mt-4 flex flex-col items-center justify-center md:mt-0 md:w-1/2">
                 <div className="mb-4 rounded-xl border-2 border-primary p-2">
                   <span>Unit price</span>
                   <span className="text-xl font-bold">

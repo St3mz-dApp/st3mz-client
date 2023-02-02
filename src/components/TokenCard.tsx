@@ -8,8 +8,8 @@ import { AudioTrack } from "./AudioTrack";
 export const TokenCard = ({ token }: { token: Token }): JSX.Element => {
   return (
     <div
-      className="group my-1 w-full px-1 transition-transform duration-300 ease-in-out hover:-translate-y-1 md:w-1/2 
-    lg:my-4 lg:w-1/3 lg:px-4"
+      className="group my-4 w-full px-4 transition-transform duration-300 ease-in-out 
+        hover:-translate-y-1 md:w-1/2 xl:w-1/3"
     >
       <div className="overflow-hidden rounded-2xl bg-sec-bg px-6 py-4 shadow-lg">
         {token.metadata && (

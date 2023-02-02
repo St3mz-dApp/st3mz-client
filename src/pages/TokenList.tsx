@@ -59,8 +59,8 @@ export const TokenListPage = (): JSX.Element => {
 
   return (
     <div>
-      <h1 className="pb-2 text-center text-6xl font-bold">Browse NFTs</h1>
-      <div className="container my-12 mx-auto px-4 md:px-12">
+      <h1 className="text-center text-6xl font-bold">Browse NFTs</h1>
+      <div className="container mx-auto my-4 lg:my-12 xl:px-12">
         <div className="-mx-1 flex flex-wrap lg:-mx-4">
           {tokens.map((token) => (
             <TokenCard key={token.id} token={token}></TokenCard>
