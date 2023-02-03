@@ -67,7 +67,34 @@ export const CreatePage = (): JSX.Element => {
 
   // Create new NFT
   const create = async () => {
-    if (!signer || !activeChain || !price || !amount) return;
+    if (!signer || !activeChain) {
+      launchToast("Please connect your wallet.", ToastType.Error);
+      return;
+    }
+    if (!metadata.name || metadata.name.trim() === "") {
+      launchToast("Please enter a name.", ToastType.Error);
+      return;
+    }
+    if (!metadata.description || metadata.description.trim() === "") {
+      launchToast("Please enter a description.", ToastType.Error);
+      return;
+    }
+    if (!metadata.genre || metadata.genre.trim() === "") {
+      launchToast("Please enter a genre.", ToastType.Error);
+      return;
+    }
+    if (!metadata.bpm || metadata.bpm % 1 !== 0 || metadata.bpm < 1) {
+      launchToast("Please enter a valid BPM.", ToastType.Error);
+      return;
+    }
+    if (!amount || amount % 1 !== 0 || amount < 1) {
+      launchToast("Please enter a valid total supply.", ToastType.Error);
+      return;
+    }
+    if (!price || price < 0) {
+      launchToast("Please enter a valid unit price.", ToastType.Error);
+      return;
+    }
 
     // Store files on IPFS
     const cid = await storeIpfs();
@@ -101,9 +128,8 @@ export const CreatePage = (): JSX.Element => {
 
   // Store files on IPFS
   const storeIpfs = async () => {
-    if (!track || !stems.length || !image) return;
-    if (licenses[0].selected && !licenses[0].tokensRequired) {
-      launchToast("Please enter a name.", ToastType.Error);
+    if (!track || !stems.length || !image) {
+      launchToast("Please upload all files.", ToastType.Error);
       return;
     }
 
@@ -124,11 +150,15 @@ export const CreatePage = (): JSX.Element => {
     }
     if (
       licensesMeta.findIndex(
-        (license) => !license.tokensRequired || license.tokensRequired > amount
+        (license) =>
+          !license.tokensRequired ||
+          license.tokensRequired > amount ||
+          license.tokensRequired < 1 ||
+          license.tokensRequired % 1 !== 0
       ) > -1
     ) {
       launchToast(
-        "Invalid number of tokens required for license.",
+        "Please enter a valid amount of tokens required for license.",
         ToastType.Error
       );
       return;
@@ -229,6 +259,7 @@ export const CreatePage = (): JSX.Element => {
                     type="text"
                     color="orange"
                     className="error bg-sec-bg !text-white"
+                    maxLength={80}
                     onChange={(e) => {
                       const stemsMeta = JSON.parse(
                         JSON.stringify(metadata.stems)
@@ -264,6 +295,7 @@ export const CreatePage = (): JSX.Element => {
               type="text"
               color="orange"
               className="error bg-sec-bg !text-white"
+              maxLength={80}
               onChange={(e) =>
                 setMetadata({ ...metadata, name: e.target.value })
               }
@@ -277,6 +309,7 @@ export const CreatePage = (): JSX.Element => {
               size="lg"
               color="orange"
               className="error bg-sec-bg !text-white"
+              maxLength={1600}
               onChange={(e) =>
                 setMetadata({ ...metadata, description: e.target.value })
               }
@@ -291,6 +324,7 @@ export const CreatePage = (): JSX.Element => {
               type="text"
               color="orange"
               className="error bg-sec-bg !text-white"
+              maxLength={80}
               onChange={(e) =>
                 setMetadata({ ...metadata, genre: e.target.value })
               }
@@ -299,6 +333,8 @@ export const CreatePage = (): JSX.Element => {
           {/* BPM */}
           <div className="mb-5 w-48">
             <Input
+              max={999}
+              min={1}
               variant="outlined"
               label="BPM"
               size="lg"
@@ -313,13 +349,18 @@ export const CreatePage = (): JSX.Element => {
           {/* Total supply */}
           <div className="mb-5 w-48">
             <Input
+              max={999999999}
+              min={1}
+              pattern="\d*"
               variant="outlined"
               label="Total supply"
               size="lg"
               type="number"
               color="orange"
               className="error bg-sec-bg !text-white"
-              onChange={(e) => setAmount(Number(e.target.value) || 0)}
+              onChange={(e) => {
+                setAmount(Number(e.target.value) || 0);
+              }}
             />
           </div>
           {/* Unit price */}
