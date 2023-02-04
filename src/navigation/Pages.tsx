@@ -6,12 +6,14 @@ import {
   LIST_ROUTE,
   CREATE_ROUTE,
   DETAIL_ROUTE,
+  ACCOUNT_ROUTE,
   PRIVACY_ROUTE,
   TERMS_ROUTE,
 } from "./Routes";
 import { TokenListPage } from "../pages/TokenList";
 import { TokenDetailPage } from "../pages/TokenDetail";
 import { CreatePage } from "../pages/Create";
+import { AccountPage } from "../pages/Account";
 export interface Page {
   key: string;
   route: string;
@@ -46,6 +48,12 @@ export const pages: Page[] = [
     key: "detail",
     route: DETAIL_ROUTE,
     component: <TokenDetailPage />,
+    showInMenu: false,
+  },
+  {
+    key: "account",
+    route: ACCOUNT_ROUTE,
+    component: <AccountPage />,
     showInMenu: false,
   },
   {

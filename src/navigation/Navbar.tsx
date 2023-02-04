@@ -4,8 +4,22 @@ import { pages } from "./Pages";
 import { Link, NavLink } from "react-router-dom";
 import { classNames } from "../utils/util";
 import { ConnectKitButton } from "connectkit";
+import { useSigner } from "wagmi";
+import { ACCOUNT_ROUTE } from "./Routes";
+import { useEffect, useState } from "react";
 
 export const Navbar = (): JSX.Element => {
+  const { data: signer } = useSigner();
+  const [signerAddress, setSignerAddress] = useState<string | null>(null);
+
+  useEffect(() => {
+    if (!signer) {
+      setSignerAddress(null);
+    } else {
+      signer.getAddress().then((address) => setSignerAddress(address));
+    }
+  }, [signer]);
+
   return (
     <>
       <Disclosure as="nav">
@@ -61,6 +75,22 @@ export const Navbar = (): JSX.Element => {
                             </NavLink>
                           )
                       )}
+                      {signerAddress && (
+                        <NavLink
+                          key="account"
+                          to={ACCOUNT_ROUTE.replace(":address", signerAddress)}
+                          className={({ isActive }) =>
+                            classNames(
+                              isActive
+                                ? "border-yellow-400 text-yellow-400"
+                                : "border-transparent text-primary hover:text-yellow-400",
+                              "block border-b-4 px-3 py-2 text-xl font-medium"
+                            )
+                          }
+                        >
+                          <span className="relative top-1">My account</span>
+                        </NavLink>
+                      )}
                     </div>
                   </div>
                 </div>
@@ -93,6 +123,22 @@ export const Navbar = (): JSX.Element => {
                         {page.label}
                       </NavLink>
                     )
+                )}
+                {signerAddress && (
+                  <NavLink
+                    key="account"
+                    to={ACCOUNT_ROUTE.replace(":address", signerAddress)}
+                    className={({ isActive }) =>
+                      classNames(
+                        isActive
+                          ? "bg-primary text-white"
+                          : "bg-blue-gray-900 text-gray-300 hover:text-white",
+                        "flex justify-center px-3 py-2 font-medium"
+                      )
+                    }
+                  >
+                    <span className="relative top-1">My account</span>
+                  </NavLink>
                 )}
               </div>
             </Disclosure.Panel>
