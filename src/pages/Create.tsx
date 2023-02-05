@@ -119,10 +119,30 @@ export const CreatePage = (): JSX.Element => {
       setLoading(false);
       launchToast("NFT created successfully.");
       navigate(DETAIL_ROUTE.replace(":id", id.toString()));
-    } catch (e) {
-      console.log(e);
+    } catch (err: any) {
+      // Manage errors
+      let errorMessage = "An error occurred creating the item.";
+      if (err.error && err.error.data && err.error.data.data) {
+        const error = st3mzContract.interface.parseError(err.error.data.data);
+        switch (error.name) {
+          case "St3mz__PriceZero":
+            errorMessage = "Price must be greater than zero.";
+            break;
+          case "St3mz__AmountZero":
+            errorMessage = "Units must be greater than zero.";
+            break;
+          case "St3mz__EmptyUri":
+            errorMessage = "URI field is empty.";
+            break;
+          default:
+            console.log(err);
+        }
+      } else {
+        console.log(err);
+      }
+
       setLoading(false);
-      launchToast("An error occurred creating the item.", ToastType.Error);
+      launchToast(errorMessage, ToastType.Error);
     }
   };
 

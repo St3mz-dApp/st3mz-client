@@ -112,10 +112,30 @@ export const TokenDetailPage = (): JSX.Element => {
       launchToast("Order completed with success.");
       getToken();
       getBalance();
-    } catch (e) {
-      console.log(e);
+    } catch (err: any) {
+      // Manage errors
+      let errorMessage = "An error occurred buying the item.";
+      if (err.error && err.error.data && err.error.data.data) {
+        const error = st3mzContract.interface.parseError(err.error.data.data);
+        switch (error.name) {
+          case "St3mz__InvalidValueSent":
+            errorMessage = "The value sent is not correct.";
+            break;
+          case "St3mz__AmountZero":
+            errorMessage = "Units must be greater than zero.";
+            break;
+          case "St3mz__AmountNotAvailable":
+            errorMessage = "There are not enough units available.";
+            break;
+          default:
+            console.log(err);
+        }
+      } else {
+        console.log(err);
+      }
+
       setLoading(false);
-      launchToast("An error occurred buying the item.", ToastType.Error);
+      launchToast(errorMessage, ToastType.Error);
     }
   };
 
