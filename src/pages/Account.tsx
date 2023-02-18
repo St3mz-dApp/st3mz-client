@@ -2,15 +2,17 @@ import { useParams } from "react-router-dom";
 import { Contract } from "ethers";
 import { useEffect, useState } from "react";
 import { useNetwork, useProvider } from "wagmi";
-import { getNetwork } from "../Config";
+import { backendUrl, getNetwork } from "../Config";
 import { Token } from "../models/Token";
 import utilContractData from "../contracts/St3mzUtil.json";
+import st3mzContractData from "../contracts/St3mz.json";
 import {
   getIpfsUri,
   launchToast,
-  respToToken,
+  chainRespToToken,
   ToastType,
   trim,
+  apiRespToToken,
 } from "../utils/util";
 import { TokenCard } from "../components/TokenCard";
 import axios from "axios";
@@ -24,13 +26,49 @@ export const AccountPage = (): JSX.Element => {
 
   useEffect(() => {
     if (address) {
-      getTokensCreated();
-      getTokensOwned();
+      getTokensCreatedFromBackend();
+      getTokensOwnedFromBackend();
     }
   }, [address]);
 
-  // Get list of tokens created by the account
-  const getTokensCreated = async () => {
+  // Get tokens owned by the account from backend
+  const getTokensOwnedFromBackend = async () => {
+    try {
+      axios
+        .get(`${backendUrl}/nft/owned-by/${address?.toLowerCase()}`)
+        .then((resp) => {
+          const _tokens = resp.data.map((item: any) => {
+            return apiRespToToken(item);
+          });
+          setTokensOwned(_tokens);
+        });
+    } catch (e) {
+      console.log(e);
+      getTokensOwnedFromChain();
+    }
+  };
+
+  // Get tokens created by the account from backend
+  const getTokensCreatedFromBackend = async () => {
+    try {
+      axios
+        .get(`${backendUrl}/nft/created-by/${address?.toLowerCase()}`)
+        .then((resp) => {
+          const _tokens = resp.data.map((item: any) => {
+            return apiRespToToken(item);
+          });
+          debugger;
+          setTokensCreated(_tokens);
+        });
+    } catch (e) {
+      console.log(e);
+      getTokensCreatedFromChain();
+    }
+  };
+
+  // Get tokens owned by the account from the chain
+  const getTokensOwnedFromChain = async () => {
+    debugger;
     if (!provider) {
       return;
     }
@@ -42,13 +80,20 @@ export const AccountPage = (): JSX.Element => {
       provider
     );
 
+    // Instantiate St3mz contract
+    const st3mzContract = new Contract(
+      getNetwork(activeChain?.id || provider.network.chainId).st3mzAddress,
+      st3mzContractData.abi,
+      provider
+    );
+
     // Get tokens from contract
     try {
       const resp = await utilContract.getTokens(12, 1, true);
 
       const _tokens = await Promise.all(
         resp.map(async (item: any) => {
-          const _token = respToToken(item);
+          const _token = chainRespToToken(item);
           let meta;
           try {
             meta = (await axios.get(getIpfsUri(_token.uri))).data;
@@ -59,7 +104,14 @@ export const AccountPage = (): JSX.Element => {
         })
       );
 
-      setTokensCreated(_tokens);
+      const hasBalance = await Promise.all(
+        _tokens.map(async (token) => {
+          const balance = await st3mzContract.balanceOf(address, token.id);
+          return Number(balance) > 0;
+        })
+      );
+
+      setTokensOwned(_tokens.filter((_v, index) => hasBalance[index]));
     } catch (e) {
       console.log(e);
       launchToast(
@@ -69,8 +121,8 @@ export const AccountPage = (): JSX.Element => {
     }
   };
 
-  // Get list of tokens owned by the account
-  const getTokensOwned = async () => {
+  // Get list of tokens created by the account from the chain
+  const getTokensCreatedFromChain = async () => {
     if (!provider) {
       return;
     }
@@ -88,7 +140,7 @@ export const AccountPage = (): JSX.Element => {
 
       const _tokens = await Promise.all(
         resp.map(async (item: any) => {
-          const _token = respToToken(item);
+          const _token = chainRespToToken(item);
           let meta;
           try {
             meta = (await axios.get(getIpfsUri(_token.uri))).data;
@@ -99,7 +151,7 @@ export const AccountPage = (): JSX.Element => {
         })
       );
 
-      setTokensOwned(_tokens);
+      setTokensCreated(_tokens.filter((token) => token.minter === address));
     } catch (e) {
       console.log(e);
       launchToast(

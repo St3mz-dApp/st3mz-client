@@ -1,5 +1,7 @@
+import { ethers } from "ethers";
 import { toast } from "react-toastify";
 import { ipfsGatewayUrl } from "../Config";
+import { Stem } from "../models/Metadata";
 import { Token } from "../models/Token";
 
 export enum ToastType {
@@ -101,7 +103,47 @@ export const classNames = (...classes: any[]) => {
   return classes.filter(Boolean).join(" ");
 };
 
-export const respToToken = (resp: any): Token => {
+export const apiRespToToken = (resp: any): Token => {
+  let stems: Stem[] = [];
+  if (resp.stems) {
+    stems = resp.metadata.stems.map((stem: any) => {
+      return {
+        description: stem.description,
+        file:
+          stem.cachedFile && stem.cachedFile !== ""
+            ? stem.cachedFile
+            : stem.file,
+      };
+    });
+  }
+
+  return {
+    id: resp.id,
+    minter: resp.minterAddress,
+    uri: resp.uri,
+    price: ethers.BigNumber.from(resp.price),
+    supply: resp.supply,
+    available: resp.available,
+    metadata: {
+      name: resp.name,
+      description: resp.description,
+      file:
+        resp.cachedFile && resp.cachedFile !== "" ? resp.cachedFile : resp.file,
+      image:
+        resp.cachedImage && resp.cachedImage !== ""
+          ? resp.cachedImage
+          : resp.image,
+      genre: resp.genre,
+      bpm: resp.bpm,
+      format: resp.format,
+      duration: resp.duration,
+      stems,
+      licenses: resp.licenses || [],
+    },
+  };
+};
+
+export const chainRespToToken = (resp: any): Token => {
   return {
     id: Number(resp.id),
     minter: resp.minter,

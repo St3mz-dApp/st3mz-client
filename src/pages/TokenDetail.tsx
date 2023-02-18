@@ -3,19 +3,19 @@ import { Contract, ethers } from "ethers";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { useNetwork, useSigner, useProvider } from "wagmi";
-import { getNetwork } from "../Config";
+import { backendUrl, getNetwork } from "../Config";
 import st3mzContractData from "../contracts/St3mz.json";
 import utilContractData from "../contracts/St3mzUtil.json";
 import { Token } from "../models/Token";
 import {
   getIpfsUri,
   launchToast,
-  respToToken,
+  chainRespToToken,
   ToastType,
   trim,
+  apiRespToToken,
 } from "../utils/util";
 import axios from "axios";
-import { Metadata } from "../models/Metadata";
 import { AudioTrack } from "../components/AudioTrack";
 import { MdOpenInNew } from "react-icons/md";
 import { Spinner } from "../components/common/Spinner";
@@ -26,25 +26,31 @@ export const TokenDetailPage = (): JSX.Element => {
   const provider = useProvider();
   const { data: signer } = useSigner();
   const [token, setToken] = useState<Token>();
-  const [metadata, setMetadata] = useState<Metadata>();
   const [amount, setAmount] = useState<number>(0);
   const [balance, setBalance] = useState<number>(0);
   const [loading, setLoading] = useState<boolean>(false);
 
   useEffect(() => {
-    if (id) getToken();
+    if (id) getTokenFromBackend();
   }, [id]);
-
-  useEffect(() => {
-    if (token) getMetadata();
-  }, [token]);
 
   useEffect(() => {
     if (signer && activeChain) getBalance();
   }, [signer, activeChain]);
 
+  // Get tokens from backend
+  const getTokenFromBackend = async () => {
+    try {
+      const resp = await axios.get(`${backendUrl}/nft/${id}`);
+      setToken(apiRespToToken(resp.data));
+    } catch (e) {
+      console.log(e);
+      getTokenFromChain();
+    }
+  };
+
   // Get token data from contract
-  const getToken = async () => {
+  const getTokenFromChain = async () => {
     if (!provider) return;
 
     // Instantiate St3mz contract
@@ -54,20 +60,16 @@ export const TokenDetailPage = (): JSX.Element => {
       provider
     );
 
-    // Call getToken() on contract
+    // Call getToken() on contract and get metadata from IPFS
     try {
-      const resp = await utilContract.getToken(id);
-      setToken(respToToken(resp));
+      const _token = chainRespToToken(await utilContract.getToken(id));
+      const { data: metadata } = await axios.get(getIpfsUri(_token.uri));
+      _token.metadata = metadata;
+      setToken(_token);
     } catch (e) {
       console.log(e);
       launchToast("An error occurred fetching item data.", ToastType.Error);
     }
-  };
-
-  // Get token metadata from IPFS
-  const getMetadata = async () => {
-    const { data } = await axios.get(getIpfsUri(token!.uri));
-    setMetadata(data);
   };
 
   // Get signer's token balance
@@ -110,7 +112,7 @@ export const TokenDetailPage = (): JSX.Element => {
       await tx.wait();
       setLoading(false);
       launchToast("Order completed with success.");
-      getToken();
+      getTokenFromChain();
       getBalance();
     } catch (err: any) {
       // Manage errors
@@ -141,19 +143,26 @@ export const TokenDetailPage = (): JSX.Element => {
 
   return (
     <div className="lg:flex">
-      {token && metadata && (
+      {token?.metadata && (
         <>
           {/* Left column */}
           <div className="lg:w-2/5">
             <div className="mb-5">
-              <div className="mb-2 text-4xl font-bold">{metadata.name}</div>
-              <AudioTrack url={getIpfsUri(metadata.file)} />
+              <div className="mb-2 text-4xl font-bold">
+                {token.metadata.name}
+              </div>
+              <AudioTrack url={getIpfsUri(token.metadata.file)} />
             </div>
-            {metadata.image && (
-              <img className="rounded-xl" src={getIpfsUri(metadata.image)} />
+            {token.metadata.image && (
+              <img
+                className="rounded-xl"
+                src={getIpfsUri(token.metadata.image)}
+              />
             )}
             <div className="my-3">
-              <span className="text-lg font-light">{metadata.description}</span>
+              <span className="text-lg font-light">
+                {token.metadata.description}
+              </span>
             </div>
             <div>
               <span>Creator</span>{" "}
@@ -161,20 +170,22 @@ export const TokenDetailPage = (): JSX.Element => {
             </div>
             <div>
               <span>Duration</span>{" "}
-              <span className="text-xl font-bold">{metadata.duration}</span>{" "}
+              <span className="text-xl font-bold">
+                {token.metadata.duration}
+              </span>{" "}
               <span className="text-xl">secs.</span>
             </div>
             <div>
               <span>Format</span>{" "}
-              <span className="text-xl font-bold">{metadata.format}</span>
+              <span className="text-xl font-bold">{token.metadata.format}</span>
             </div>
             <div>
               <span>Genre</span>{" "}
-              <span className="text-xl font-bold">{metadata.genre}</span>
+              <span className="text-xl font-bold">{token.metadata.genre}</span>
             </div>
             <div>
               <span>BPM</span>{" "}
-              <span className="text-xl font-bold">{metadata.bpm}</span>
+              <span className="text-xl font-bold">{token.metadata.bpm}</span>
             </div>
             <div>
               <span>Supply</span>{" "}
@@ -197,7 +208,7 @@ export const TokenDetailPage = (): JSX.Element => {
             <div className="mt-4 mb-2 border-b border-b-secondary text-2xl">
               Stems
             </div>
-            {metadata.stems.map((stem, index) => (
+            {token.metadata.stems.map((stem, index) => (
               <div className="py-2" key={index}>
                 <div>{stem.description}</div>
                 <AudioTrack url={getIpfsUri(stem.file)} />
@@ -209,7 +220,7 @@ export const TokenDetailPage = (): JSX.Element => {
                 <div className="mt-2 border-b border-b-secondary text-2xl">
                   Licenses
                 </div>
-                {metadata.licenses.map((license, index) => (
+                {token.metadata.licenses.map((license, index) => (
                   <div key={index}>
                     {license.type}{" "}
                     <span className="text-xl font-bold">

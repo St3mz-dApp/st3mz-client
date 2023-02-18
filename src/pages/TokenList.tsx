@@ -1,10 +1,16 @@
 import { Contract } from "ethers";
 import { useEffect, useState } from "react";
 import { useNetwork, useProvider } from "wagmi";
-import { getNetwork } from "../Config";
+import { backendUrl, getNetwork } from "../Config";
 import { Token } from "../models/Token";
 import utilContractData from "../contracts/St3mzUtil.json";
-import { getIpfsUri, launchToast, respToToken, ToastType } from "../utils/util";
+import {
+  getIpfsUri,
+  launchToast,
+  apiRespToToken,
+  chainRespToToken,
+  ToastType,
+} from "../utils/util";
 import { TokenCard } from "../components/TokenCard";
 import axios from "axios";
 
@@ -14,11 +20,26 @@ export const TokenListPage = (): JSX.Element => {
   const { chain: activeChain } = useNetwork();
 
   useEffect(() => {
-    getTokens();
+    getTokensFromBackend();
   }, []);
 
+  // Get tokens from backend
+  const getTokensFromBackend = async () => {
+    try {
+      axios.get(`${backendUrl}/nft`).then((resp) => {
+        const _tokens = resp.data.map((item: any) => {
+          return apiRespToToken(item);
+        });
+        setTokens(_tokens);
+      });
+    } catch (e) {
+      console.log(e);
+      getTokensFromChain();
+    }
+  };
+
   // Get list of tokens from contract
-  const getTokens = async () => {
+  const getTokensFromChain = async () => {
     if (!provider) {
       return;
     }
@@ -36,7 +57,7 @@ export const TokenListPage = (): JSX.Element => {
 
       const _tokens = await Promise.all(
         resp.map(async (item: any) => {
-          const _token = respToToken(item);
+          const _token = chainRespToToken(item);
           let meta;
           try {
             meta = (await axios.get(getIpfsUri(_token.uri))).data;

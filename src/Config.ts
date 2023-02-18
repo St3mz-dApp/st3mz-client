@@ -4,6 +4,8 @@ export const APP_NAME = "St3mz";
 
 export const ipfsGatewayUrl = "https://nftstorage.link/ipfs/";
 
+export const backendUrl = "http://localhost:8080";
+
 var availableChains =
   process.env.NODE_ENV === "development"
     ? [fantomTestnet, fantom, foundry]
@@ -21,8 +23,8 @@ const networks: Network[] = [
   {
     chainId: foundry.id,
     name: "Local network",
-    st3mzAddress: "0x36d392a5da9817e8d91498a47c852c25f7a2073e",
-    utilAddress: "0x16343ed8aa81aba9873ed9402979580a709de5e1",
+    st3mzAddress: "0x5fbdb2315678afecb367f032d93f642f64180aa3",
+    utilAddress: "0xe7f1725e7734ce288f8367e1bb143e90bb3f0512",
   },
   {
     chainId: fantomTestnet.id,
