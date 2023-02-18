@@ -48,6 +48,11 @@ export const AudioTrack = ({
         if (onDurationRead)
           onDurationRead(Math.round(wavesurferInstance.getDuration()));
       });
+
+      // Destroy the wavesurfer instance when the component unmounts
+      return () => {
+        wavesurferInstance.destroy();
+      };
     }
   }, []);
 
