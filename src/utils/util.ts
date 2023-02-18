@@ -106,7 +106,7 @@ export const classNames = (...classes: any[]) => {
 export const apiRespToToken = (resp: any): Token => {
   let stems: Stem[] = [];
   if (resp.stems) {
-    stems = resp.metadata.stems.map((stem: any) => {
+    stems = resp.stems.map((stem: any) => {
       return {
         description: stem.description,
         file:

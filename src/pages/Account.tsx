@@ -57,7 +57,6 @@ export const AccountPage = (): JSX.Element => {
           const _tokens = resp.data.map((item: any) => {
             return apiRespToToken(item);
           });
-          debugger;
           setTokensCreated(_tokens);
         });
     } catch (e) {
@@ -68,7 +67,6 @@ export const AccountPage = (): JSX.Element => {
 
   // Get tokens owned by the account from the chain
   const getTokensOwnedFromChain = async () => {
-    debugger;
     if (!provider) {
       return;
     }

@@ -26,12 +26,11 @@ export const TokenListPage = (): JSX.Element => {
   // Get tokens from backend
   const getTokensFromBackend = async () => {
     try {
-      axios.get(`${backendUrl}/nft`).then((resp) => {
-        const _tokens = resp.data.map((item: any) => {
-          return apiRespToToken(item);
-        });
-        setTokens(_tokens);
+      const resp = await axios.get(`${backendUrl}/nft`);
+      const _tokens = resp.data.map((item: any) => {
+        return apiRespToToken(item);
       });
+      setTokens(_tokens);
     } catch (e) {
       console.log(e);
       getTokensFromChain();
