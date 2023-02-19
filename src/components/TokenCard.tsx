@@ -2,7 +2,7 @@ import { ethers } from "ethers";
 import { Link } from "react-router-dom";
 import { Token } from "../models/Token";
 import { DETAIL_ROUTE } from "../navigation/Routes";
-import { getIpfsUri } from "../utils/util";
+import { getUri } from "../utils/util";
 import { AudioTrack } from "./AudioTrack";
 
 export const TokenCard = ({ token }: { token: Token }): JSX.Element => {
@@ -18,12 +18,12 @@ export const TokenCard = ({ token }: { token: Token }): JSX.Element => {
               <Link to={DETAIL_ROUTE.replace(":id", token.id.toString())}>
                 <img
                   className="mb-6 h-64 w-full rounded-xl object-cover object-center"
-                  src={getIpfsUri(token.metadata.image)}
+                  src={getUri(token.metadata.image)}
                 />
               </Link>
             )}
             {token.metadata.file && (
-              <AudioTrack url={getIpfsUri(token.metadata.file)} small={true} />
+              <AudioTrack url={getUri(token.metadata.file)} small={true} />
             )}
             <div>
               <span className="text-xl font-bold">{token.metadata.name}</span>

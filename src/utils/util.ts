@@ -154,6 +154,7 @@ export const chainRespToToken = (resp: any): Token => {
   };
 };
 
-export const getIpfsUri = (baseUri: string): string => {
+// If the URI is an IPFS URI, return the gateway URL
+export const getUri = (baseUri: string): string => {
   return baseUri.replace("ipfs://", ipfsGatewayUrl);
 };

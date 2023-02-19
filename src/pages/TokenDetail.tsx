@@ -8,7 +8,7 @@ import st3mzContractData from "../contracts/St3mz.json";
 import utilContractData from "../contracts/St3mzUtil.json";
 import { Token } from "../models/Token";
 import {
-  getIpfsUri,
+  getUri,
   launchToast,
   chainRespToToken,
   ToastType,
@@ -17,8 +17,10 @@ import {
 } from "../utils/util";
 import axios from "axios";
 import { AudioTrack } from "../components/AudioTrack";
-import { MdOpenInNew } from "react-icons/md";
+import { MdDownload, MdOpenInNew } from "react-icons/md";
 import { Spinner } from "../components/common/Spinner";
+import JSZip from "jszip";
+import * as FileSaver from "file-saver";
 
 export const TokenDetailPage = (): JSX.Element => {
   const { id } = useParams<{ id: string }>();
@@ -28,7 +30,8 @@ export const TokenDetailPage = (): JSX.Element => {
   const [token, setToken] = useState<Token>();
   const [amount, setAmount] = useState<number>(0);
   const [balance, setBalance] = useState<number>(0);
-  const [loading, setLoading] = useState<boolean>(false);
+  const [loadingBuy, setloadingBuy] = useState<boolean>(false);
+  const [loadingDownload, setloadingDownload] = useState<boolean>(false);
 
   useEffect(() => {
     if (id) getTokenFromBackend();
@@ -63,7 +66,7 @@ export const TokenDetailPage = (): JSX.Element => {
     // Call getToken() on contract and get metadata from IPFS
     try {
       const _token = chainRespToToken(await utilContract.getToken(id));
-      const { data: metadata } = await axios.get(getIpfsUri(_token.uri));
+      const { data: metadata } = await axios.get(getUri(_token.uri));
       _token.metadata = metadata;
       setToken(_token);
     } catch (e) {
@@ -108,9 +111,9 @@ export const TokenDetailPage = (): JSX.Element => {
       const tx = await st3mzContract.buy(id, amount, {
         value: token.price.mul(amount).toString(),
       });
-      setLoading(true);
+      setloadingBuy(true);
       await tx.wait();
-      setLoading(false);
+      setloadingBuy(false);
       launchToast("Order completed with success.");
       getTokenFromChain();
       getBalance();
@@ -136,9 +139,57 @@ export const TokenDetailPage = (): JSX.Element => {
         console.log(err);
       }
 
-      setLoading(false);
+      setloadingBuy(false);
       launchToast(errorMessage, ToastType.Error);
     }
+  };
+
+  // Zip all files and download
+  const downloadFiles = async () => {
+    setloadingDownload(true);
+
+    const urls: string[] = [];
+    if (token?.metadata?.file) {
+      urls.push(getUri(token.metadata.file));
+    }
+    if (token?.metadata?.image) {
+      urls.push(getUri(token.metadata.image));
+    }
+    if (token?.metadata?.stems) {
+      urls.push(...token.metadata.stems.map((stem) => stem.file));
+    }
+
+    const promises = urls.map((url) =>
+      axios.get(url, { responseType: "arraybuffer" })
+    );
+    Promise.all(promises)
+      .then((responses) => {
+        const zip = new JSZip();
+        responses.forEach((response, index) => {
+          const mimeType = response.headers["content-type"];
+          const extension = mimeType.split("/")[1];
+          console.log(mimeType, extension);
+          const base64Data = Buffer.from(response.data, "binary").toString(
+            "base64"
+          );
+          const fileName =
+            urls[index].split("/").pop() ||
+            `file_${index}.${token!.metadata!.format}`;
+          zip.file(fileName, base64Data, { base64: true });
+        });
+        zip.generateAsync({ type: "blob" }).then((content) => {
+          FileSaver.saveAs(content, `${token?.metadata?.name}.zip`);
+          setloadingDownload(false);
+        });
+      })
+      .catch((err) => {
+        console.log(err);
+        launchToast(
+          "An error occurred downloadingBuy the files.",
+          ToastType.Error
+        );
+        setloadingDownload(false);
+      });
   };
 
   return (
@@ -151,13 +202,10 @@ export const TokenDetailPage = (): JSX.Element => {
               <div className="mb-2 text-4xl font-bold">
                 {token.metadata.name}
               </div>
-              <AudioTrack url={getIpfsUri(token.metadata.file)} />
+              <AudioTrack url={getUri(token.metadata.file)} />
             </div>
             {token.metadata.image && (
-              <img
-                className="rounded-xl"
-                src={getIpfsUri(token.metadata.image)}
-              />
+              <img className="rounded-xl" src={getUri(token.metadata.image)} />
             )}
             <div className="my-3">
               <span className="text-lg font-light">
@@ -197,7 +245,7 @@ export const TokenDetailPage = (): JSX.Element => {
             </div>
             <div>
               <span>IPFS link</span>{" "}
-              <a href={getIpfsUri(token.uri)} target="_blank">
+              <a href={getUri(token.uri)} target="_blank">
                 <MdOpenInNew className="-mt-1 inline h-6 w-6 cursor-pointer text-secondary" />
               </a>
             </div>
@@ -211,7 +259,7 @@ export const TokenDetailPage = (): JSX.Element => {
             {token.metadata.stems.map((stem, index) => (
               <div className="py-2" key={index}>
                 <div>{stem.description}</div>
-                <AudioTrack url={getIpfsUri(stem.file)} />
+                <AudioTrack url={getUri(stem.file)} />
               </div>
             ))}
 
@@ -242,7 +290,7 @@ export const TokenDetailPage = (): JSX.Element => {
                 </div>
                 {token.available > 0 ? (
                   <div className="flex">
-                    {loading ? (
+                    {loadingBuy ? (
                       <Spinner message="Processing order..." />
                     ) : (
                       <>
@@ -279,6 +327,21 @@ export const TokenDetailPage = (): JSX.Element => {
                     {balance == 1 ? <span>token</span> : <span>tokens</span>}
                   </span>
                 </span>
+                <div className="mt-6 ml-2">
+                  {loadingDownload ? (
+                    <div className="mt-4">
+                      <Spinner message="Download files..." />
+                    </div>
+                  ) : (
+                    <>
+                      <span>Download files</span>{" "}
+                      <MdDownload
+                        className="-mt-1 inline h-6 w-6 cursor-pointer text-secondary"
+                        onClick={downloadFiles}
+                      />
+                    </>
+                  )}
+                </div>
               </div>
             )}
           </div>

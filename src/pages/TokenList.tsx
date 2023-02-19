@@ -5,7 +5,7 @@ import { backendUrl, getNetwork } from "../Config";
 import { Token } from "../models/Token";
 import utilContractData from "../contracts/St3mzUtil.json";
 import {
-  getIpfsUri,
+  getUri,
   launchToast,
   apiRespToToken,
   chainRespToToken,
@@ -59,7 +59,7 @@ export const TokenListPage = (): JSX.Element => {
           const _token = chainRespToToken(item);
           let meta;
           try {
-            meta = (await axios.get(getIpfsUri(_token.uri))).data;
+            meta = (await axios.get(getUri(_token.uri))).data;
           } catch (e) {
             console.log(e);
           }

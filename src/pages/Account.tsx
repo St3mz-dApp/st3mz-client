@@ -7,7 +7,7 @@ import { Token } from "../models/Token";
 import utilContractData from "../contracts/St3mzUtil.json";
 import st3mzContractData from "../contracts/St3mz.json";
 import {
-  getIpfsUri,
+  getUri,
   launchToast,
   chainRespToToken,
   ToastType,
@@ -122,7 +122,7 @@ export const AccountPage = (): JSX.Element => {
           const _token = chainRespToToken(item);
           let meta;
           try {
-            meta = (await axios.get(getIpfsUri(_token.uri))).data;
+            meta = (await axios.get(getUri(_token.uri))).data;
           } catch (e) {
             console.log(e);
           }
@@ -169,7 +169,7 @@ export const AccountPage = (): JSX.Element => {
           const _token = chainRespToToken(item);
           let meta;
           try {
-            meta = (await axios.get(getIpfsUri(_token.uri))).data;
+            meta = (await axios.get(getUri(_token.uri))).data;
           } catch (e) {
             console.log(e);
           }
