@@ -1,7 +1,7 @@
 import { useParams } from "react-router-dom";
-import { Contract } from "ethers";
+import { Contract, ethers } from "ethers";
 import { useEffect, useState } from "react";
-import { useNetwork, useProvider } from "wagmi";
+import { useNetwork, useProvider, useSigner } from "wagmi";
 import { backendUrl, getNetwork } from "../Config";
 import { Token } from "../models/Token";
 import utilContractData from "../contracts/St3mzUtil.json";
@@ -16,20 +16,48 @@ import {
 } from "../utils/util";
 import { TokenCard } from "../components/TokenCard";
 import axios from "axios";
+import { Button } from "@material-tailwind/react";
 
 export const AccountPage = (): JSX.Element => {
   const { address } = useParams<{ address: string }>();
   const provider = useProvider();
   const [tokensCreated, setTokensCreated] = useState<Token[]>([]);
   const [tokensOwned, setTokensOwned] = useState<Token[]>([]);
+  const [withdrawableBalance, setWithdrawableBalance] = useState<string>();
   const { chain: activeChain } = useNetwork();
+  const { data: signer } = useSigner();
 
   useEffect(() => {
     if (address) {
       getTokensCreatedFromBackend();
       getTokensOwnedFromBackend();
+      getWithdrawableBalance();
     }
   }, [address]);
+
+  // Get withdrawable balance from contract
+  const getWithdrawableBalance = async (): Promise<void> => {
+    if (!provider) {
+      return;
+    }
+
+    // Instantiate St3mz contract
+    const st3mzContract = new Contract(
+      getNetwork(activeChain?.id || provider.network.chainId).st3mzAddress,
+      st3mzContractData.abi,
+      provider
+    );
+
+    try {
+      const contractBalance = await st3mzContract.withdrawableBalance(address);
+      console.log("contractBalance", contractBalance);
+      setWithdrawableBalance(
+        Number(ethers.utils.formatEther(contractBalance)).toFixed(2)
+      );
+    } catch (e) {
+      console.log(e);
+    }
+  };
 
   // Get tokens owned by the account from backend
   const getTokensOwnedFromBackend = async () => {
@@ -159,6 +187,42 @@ export const AccountPage = (): JSX.Element => {
     }
   };
 
+  // Withdraw available balance from contract
+  const withdraw = async (): Promise<void> => {
+    if (!signer) {
+      launchToast("Please connect to your account.", ToastType.Error);
+      return;
+    }
+    // Instantiate St3mz contract with signer
+    const st3mzContract = new Contract(
+      getNetwork(activeChain?.id || provider.network.chainId).st3mzAddress,
+      st3mzContractData.abi,
+      signer
+    );
+
+    try {
+      const tx = await st3mzContract.withdraw();
+      await tx.wait();
+      launchToast("Withdrawal successful.");
+    } catch (err: any) {
+      // Manage errors
+      let errorMessage = "An error occurred withdrawing from contract.";
+      if (err.error && err.error.data && err.error.data.data) {
+        const error = st3mzContract.interface.parseError(err.error.data.data);
+        switch (error.name) {
+          case "St3mz__BalanceZero":
+            errorMessage = "Withdrawable balance in contract is zero.";
+            break;
+          default:
+            console.log(err);
+        }
+      } else {
+        console.log(err);
+      }
+      launchToast(errorMessage, ToastType.Error);
+    }
+  };
+
   return (
     <div>
       <div className="flex justify-center">
@@ -167,6 +231,21 @@ export const AccountPage = (): JSX.Element => {
         </h1>
       </div>
       <div className="container mx-auto my-4 lg:my-12 xl:px-12">
+        {withdrawableBalance && Number(withdrawableBalance) > 0 && (
+          <div className="mb-6">
+            <span className="text-sec-text">Withdrawable balance: </span>
+            <img src="/images/FTM.svg" className="mx-1 inline h-5" />
+            <span>{withdrawableBalance}</span>
+            <Button
+              color="orange"
+              size="sm"
+              className="ml-2 rounded-full px-2 py-1 text-xs"
+              onClick={() => withdraw()}
+            >
+              Withdraw
+            </Button>
+          </div>
+        )}
         <h2 className="border-b-2 border-secondary text-3xl font-bold">
           Owned
         </h2>
