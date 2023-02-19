@@ -161,9 +161,11 @@ export const AccountPage = (): JSX.Element => {
 
   return (
     <div>
-      <h1 className="text-center text-6xl font-bold">
-        Account {address ? trim(address) : ""}
-      </h1>
+      <div className="flex justify-center">
+        <h1 className="title-gradient">
+          Account {address ? trim(address) : ""}
+        </h1>
+      </div>
       <div className="container mx-auto my-4 lg:my-12 xl:px-12">
         <h2 className="border-b-2 border-secondary text-3xl font-bold">
           Owned

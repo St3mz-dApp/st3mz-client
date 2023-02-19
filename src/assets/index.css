@@ -15,6 +15,11 @@ body {
   background-color: #0b152c;
 }
 
+.title-gradient {
+  @apply inline bg-clip-text text-center text-7xl font-extrabold text-transparent;
+  background-image: linear-gradient(90deg, #f99007 0%, #ffd900 100%);
+}
+
 ::-webkit-scrollbar {
   width: 12px;
 }

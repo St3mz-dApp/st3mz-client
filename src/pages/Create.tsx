@@ -225,7 +225,9 @@ export const CreatePage = (): JSX.Element => {
 
   return (
     <div>
-      <h1 className="pb-2 text-center text-6xl font-bold">Create NFT</h1>
+      <div className="flex justify-center">
+        <h1 className="title-gradient">Create NFT</h1>
+      </div>
       <div className="mt-12 lg:flex">
         {/* Left column */}
         <div className="flex flex-col items-center lg:w-1/2">

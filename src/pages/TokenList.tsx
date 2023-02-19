@@ -79,7 +79,9 @@ export const TokenListPage = (): JSX.Element => {
 
   return (
     <div>
-      <h1 className="text-center text-6xl font-bold">Browse NFTs</h1>
+      <div className="flex justify-center">
+        <h1 className="title-gradient">Browse NFTs</h1>
+      </div>
       <div className="container mx-auto my-4 lg:my-12 xl:px-12">
         <div className="-mx-1 flex flex-wrap lg:-mx-4">
           {tokens.map((token) => (
