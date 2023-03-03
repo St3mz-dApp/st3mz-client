@@ -152,9 +152,9 @@ export const TokenDetailPage = (): JSX.Element => {
     if (token?.metadata?.file) {
       urls.push(getUri(token.metadata.file));
     }
-    if (token?.metadata?.image) {
-      urls.push(getUri(token.metadata.image));
-    }
+    // if (token?.metadata?.image) {
+    //   urls.push(getUri(token.metadata.image));
+    // }
     if (token?.metadata?.stems) {
       urls.push(...token.metadata.stems.map((stem) => stem.file));
     }
@@ -185,7 +185,7 @@ export const TokenDetailPage = (): JSX.Element => {
       .catch((err) => {
         console.log(err);
         launchToast(
-          "An error occurred downloadingBuy the files.",
+          "An error occurred downloading the files.",
           ToastType.Error
         );
         setloadingDownload(false);
