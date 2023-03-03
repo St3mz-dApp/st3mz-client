@@ -5,9 +5,9 @@ export const PrivacyPage = (): JSX.Element => {
     <div>
       <h1 className="pb-2 text-5xl font-bold">Privacy Policy</h1>
       <p className="pt-1">
-        At {APP_NAME}, accessible from https://st3mz-dapp.web.app, one of our
-        main priorities is the privacy of our visitors. This Privacy Policy
-        document contains types of information that is collected and recorded by{" "}
+        At {APP_NAME}, accessible from https://st3mz.xyz, one of our main
+        priorities is the privacy of our visitors. This Privacy Policy document
+        contains types of information that is collected and recorded by{" "}
         {APP_NAME}
         and how we use it.
       </p>

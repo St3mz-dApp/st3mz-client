@@ -8,12 +8,12 @@ export const TermsPage = (): JSX.Element => {
       <h1 className="pb-2 text-5xl font-bold">Terms and Conditions of Use</h1>
       <h2 className="pt-4 text-3xl font-bold">1. Terms</h2>
       <p className="pt-1">
-        By accessing this Website, accessible from https://st3mz-dapp.web.app,
-        you are agreeing to be bound by these Website Terms and Conditions of
-        Use and agree that you are responsible for the agreement with any
-        applicable local laws. If you disagree with any of these terms, you are
-        prohibited from accessing this site. The materials contained in this
-        Website are protected by copyright and trade mark law.
+        By accessing this Website, accessible from https://st3mz.xyz, you are
+        agreeing to be bound by these Website Terms and Conditions of Use and
+        agree that you are responsible for the agreement with any applicable
+        local laws. If you disagree with any of these terms, you are prohibited
+        from accessing this site. The materials contained in this Website are
+        protected by copyright and trade mark law.
       </p>
       <h2 className="pt-4 text-3xl font-bold">2. Use License</h2>
       <p className="pt-1">

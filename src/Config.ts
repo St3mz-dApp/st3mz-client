@@ -4,14 +4,12 @@ export const APP_NAME = "St3mz";
 
 export const ipfsGatewayUrl = "https://nftstorage.link/ipfs/";
 
-export const backendUrl =
-  "http://st3mz-env.eba-f9kspr5c.us-west-1.elasticbeanstalk.com";
-// export const backendUrl = "http://localhost:8080";
+export const backendUrl = "https://www.whatswapz.com";
 
 var availableChains =
   process.env.NODE_ENV === "development"
     ? [fantomTestnet, fantom, foundry]
-    : [fantomTestnet, fantom];
+    : [fantomTestnet];
 export const CHAINS = availableChains;
 
 export interface Network {
