@@ -234,7 +234,7 @@ export const AccountPage = (): JSX.Element => {
         {withdrawableBalance && Number(withdrawableBalance) > 0 && (
           <div className="mb-6">
             <span className="text-sec-text">Withdrawable balance: </span>
-            <img src="/images/FTM.svg" className="mx-1 inline h-5" />
+            <img src="/images/matic.svg" className="mx-1 inline h-5" />
             <span>{withdrawableBalance}</span>
             <Button
               color="orange"

@@ -1,6 +1,6 @@
 import { MdErrorOutline } from "react-icons/md";
 import { useNetwork } from "wagmi";
-import { fantomTestnet, foundry } from "@wagmi/core/chains";
+import { polygonMumbai, foundry } from "@wagmi/core/chains";
 import { APP_NAME } from "../Config";
 
 export const NetworkBanner = (): JSX.Element => {
@@ -14,7 +14,7 @@ export const NetworkBanner = (): JSX.Element => {
           <span>You are using {APP_NAME} in local network.</span>
         </div>
       );
-    case fantomTestnet.id:
+    case polygonMumbai.id:
       return (
         <div className={"flex items-center justify-center bg-primary p-2"}>
           <MdErrorOutline className="mr-1 h-5 w-5" />

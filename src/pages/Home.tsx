@@ -4,11 +4,11 @@ export const HomePage = (): JSX.Element => {
       <img
         src="/images/logo_full.png"
         alt="logo"
-        className="lg:w-1/2 mx-auto mb-12"
+        className="mx-auto mb-12 lg:w-1/2"
       />
-      <div className="md:mx-8 text-lg">
-        <div className="rounded-2xl shadow-lg bg-sec-bg p-6 pt-4 lg:w-3/5 mb-6">
-          <div className="text-3xl font-bold border-b border-primary mb-2">
+      <div className="text-lg md:mx-8">
+        <div className="mb-6 rounded-2xl bg-sec-bg p-6 pt-4 shadow-lg lg:w-3/5">
+          <div className="mb-2 border-b border-primary text-3xl font-bold">
             Music NFTs
           </div>
           <div className="mb-1">
@@ -25,11 +25,12 @@ export const HomePage = (): JSX.Element => {
             All the files are stored on{" "}
             <span className="font-bold text-secondary">IPFS</span> and the NFT
             is minted on{" "}
-            <span className="font-bold text-secondary">Fantom blockchain</span>.
+            <span className="font-bold text-secondary">Polygon blockchain</span>
+            .
           </div>
         </div>
-        <div className="rounded-2xl shadow-lg bg-sec-bg p-6 pt-4 lg:w-3/5 mb-6 ml-auto">
-          <div className="text-3xl font-bold border-b border-primary mb-2">
+        <div className="mb-6 ml-auto rounded-2xl bg-sec-bg p-6 pt-4 shadow-lg lg:w-3/5">
+          <div className="mb-2 border-b border-primary text-3xl font-bold">
             Different licenses
           </div>
           <div className="mb-1">

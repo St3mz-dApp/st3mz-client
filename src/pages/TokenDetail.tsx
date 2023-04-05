@@ -284,7 +284,7 @@ export const TokenDetailPage = (): JSX.Element => {
                 <div className="mb-4 rounded-xl border-2 border-primary p-2">
                   <span>Unit price</span>
                   <span className="text-xl font-bold">
-                    <img src="/images/FTM.svg" className="mx-1 inline h-5" />
+                    <img src="/images/matic.svg" className="mx-1 inline h-5" />
                     {ethers.utils.formatEther(token.price)}
                   </span>
                 </div>

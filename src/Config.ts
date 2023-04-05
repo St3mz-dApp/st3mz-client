@@ -1,4 +1,4 @@
-import { fantom, fantomTestnet, foundry } from "@wagmi/core/chains";
+import { polygon, polygonMumbai, foundry } from "@wagmi/core/chains";
 
 export const APP_NAME = "St3mz";
 
@@ -8,8 +8,8 @@ export const backendUrl = "https://www.whatswapz.com";
 
 var availableChains =
   process.env.NODE_ENV === "development"
-    ? [fantomTestnet, fantom, foundry]
-    : [fantomTestnet];
+    ? [polygonMumbai, polygon, foundry]
+    : [polygon];
 export const CHAINS = availableChains;
 
 export interface Network {
@@ -27,16 +27,16 @@ const networks: Network[] = [
     utilAddress: "0xe7f1725e7734ce288f8367e1bb143e90bb3f0512",
   },
   {
-    chainId: fantomTestnet.id,
+    chainId: polygonMumbai.id,
     name: "Testnet",
-    st3mzAddress: "0xde619f24562251520058773d3625b00716ce804b",
-    utilAddress: "0xecf1ff305d570585885f6078cff66a678777b10b",
+    st3mzAddress: "0xf8ba37b852c05ef755865d06d2911b840433c2e4",
+    utilAddress: "0x8e542a5e13df14b2c6cdd2eb07ada4bce879df38",
   },
   {
-    chainId: fantom.id,
+    chainId: polygon.id,
     name: "Mainnet",
-    st3mzAddress: "0x0",
-    utilAddress: "0x0",
+    st3mzAddress: "0xd89e04f2ddf5f8212461d27584216f00ab6e96f4",
+    utilAddress: "0x2da83a100e25ad3a2ea58967d37f8439a33de4fb",
   },
 ];
 
